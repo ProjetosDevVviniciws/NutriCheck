@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required
 from sqlalchemy import text
 from src.nutri_app.database import engine
-import requests
 
 alimentos_bp = Blueprint('alimentos', __name__)
 
