@@ -18,7 +18,7 @@
 - Cálculo automático de calorias e macronutrientes  
 - Registro de ingestão de água  
 - Acompanhamento de progresso de peso com gráfico  
-- Integração com API de alimentos (busca por nome)  
+- Busca de alimentos a partir de catálogo interno com dados nutricionais  
 - Recuperação de senha via e-mail **(limitada a ambiente de teste, devido à ausência de domínio próprio configurado)** 
 - Edição de perfil do usuário  
 
@@ -63,9 +63,9 @@
 - **Render** → deploy da aplicação  
 - **Clever Cloud** → hospedagem do banco de dados MySQL  
 
-## 🔌 Integrações externas
+## 🔌 Ingestão de dados externos
 
-- **OpenFoodFacts API** → busca de alimentos e dados nutricionais  
+- **OpenFoodFacts API** → ingestão de dados nutricionais em lote, permitindo a construção de um catálogo próprio persistido em banco de dados
 
 ## 🧠 Como cada tecnologia foi aplicada (resumo)
 
@@ -82,7 +82,7 @@
 ## 📊 Diferenciais do projeto
 
 - Interface totalmente responsiva  
-- Integração com API externa de alimentos  
+- Ingestão de dados da API OpenFoodFacts para construção de catálogo próprio
 - Cálculo automático de calorias e macronutrientes  
 - Envio de e-mail para recuperação de senha **(limitado a ambiente de testes, pois não há domínio próprio configurado)**  
 - Atualização de dados sem reload (AJAX)  
@@ -131,7 +131,6 @@ NutriCheck/
 │       ├── utils/               # Regras de negócio e utilidades
 │       │   ├── email_service.py     # Envio de e-mails
 │       │   ├── macros.py            # Cálculo de calorias/macronutrientes
-│       │   ├── api_openfoodfacts.py # Integração com API externa
 │       │   ├── token.py             # Geração de tokens (reset senha)
 │       │   ├── static_utils.py      # Versionamento de arquivos estáticos
 │       │   ├── hash.py              # Criptografia de senha
@@ -184,6 +183,6 @@ O **NutriCheck** foi desenvolvido com foco em aprendizado prático e aplicação
 Este projeto demonstra habilidades em:
 
 - Desenvolvimento full stack  
-- Integração com API externa  
+- Ingestão e persistência de dados a partir de API externa  
 - Boas práticas de organização de código  
 - Deploy e configuração de ambiente de produção
