@@ -6,52 +6,6 @@ import requests
 
 alimentos_bp = Blueprint('alimentos', __name__)
 
-def buscar_api_e_salvar(nome):
-    url = f"https://world.openfoodfacts.org/api/v0/product/{nome}.json"
-    r = requests.get(url).json()
-
-    if r.get("status") != 1:
-        return None
-
-    produto = r["product"]
-    nome = produto.get("product_name")
-    porcao = produto.get("serving_size")
-    if porcao and "g" in porcao.lower():
-        try:
-            porcao = float(porcao.lower().replace("g", "").strip())
-        except:
-            porcao = None
-
-    calorias = produto.get("nutriments", {}).get("energy-kcal_100g")
-    proteinas = produto.get("nutriments", {}).get("proteins_100g")
-    carboidratos = produto.get("nutriments", {}).get("carbohydrates_100g")
-    gorduras = produto.get("nutriments", {}).get("fat_100g")
-
-    if not nome or calorias is None:
-        return None
-
-    with engine.begin() as conn:
-        conn.execute(text("""
-            INSERT INTO catalogo_alimentos (nome, porcao, calorias, proteinas, carboidratos, gorduras)
-            VALUES (:nome, :porcao, :calorias, :proteinas, :carboidratos, :gorduras)
-        """), {
-            "nome": nome[:100],
-            "porcao": porcao or 100,
-            "calorias": calorias,
-            "proteinas": proteinas,
-            "carboidratos": carboidratos,
-            "gorduras": gorduras
-        })
-
-    return {
-        "nome": nome,
-        "porcao": porcao or 100,
-        "calorias": calorias,
-        "proteinas": proteinas,
-        "carboidratos": carboidratos,
-        "gorduras": gorduras
-    }
-
 @alimentos_bp.route("/buscar-alimentos")
 @login_required
 def buscar_alimentos():
