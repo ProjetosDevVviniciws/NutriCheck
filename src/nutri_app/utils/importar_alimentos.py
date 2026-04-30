@@ -1,41 +1,44 @@
-import requests
+import pandas as pd
 from sqlalchemy import text
 from src.nutri_app.database import engine
 
-def importar_alimentos_populares():
-    url = "https://br.openfoodfacts.org/cgi/search.pl"
-    
-    total_paginas = 40
+def importar_alimentos_csv(caminho_csv):
+    chunks = pd.read_csv(
+        caminho_csv,
+        sep="\t",
+        chunksize=10000,
+        low_memory=False
+    )
     
     with engine.begin() as conn:
-        for pagina in range(1, total_paginas + 1):
-            parametros = {
-                "action": "process",
-                "tagtype_0": "countries",
-                "tag_contains_0": "contains",
-                "tag_0": "brazil", 
-                "sort_by": "unique_scans_n",  
-                "page_size": 100,  
-                "page": pagina,   
-                "json": 1
-            }
-            
-            reponse = requests.get(url, params=parametros)
-            if reponse.status_code != 200:
-                print("Erro ao acessar a API do OpenFoodFacts na página {pagina}.")
-    
-            data = reponse.json()
-            produtos = data.get("products", [])
-            
-            for produto in produtos:
-                nome = produto.get("product_name", "").strip()
-                nutriments = produto.get("nutriments", {})
-                calorias = nutriments.get("energy-kcal_100g")
-                proteinas = nutriments.get("proteins_100g")
-                gordura = nutriments.get("fat_100g")
-                carboidrato = nutriments.get("carbohydrates_100g")
+        for chunk in chunks:
+            chunk.columns = chunk.columns.str.replace("-", "_")
+
+            for row in chunk.itertuples():
+
+                countries = str(getattr(row, "countries_tags", ""))
+                if "en:brazil" not in countries:
+                    continue
                 
-                if not nome or calorias is None:
+                nome_raw = getattr(row, "product_name", "")
+
+                if pd.isna(nome_raw):
+                    continue
+
+                nome = str(nome_raw).strip()
+                
+                calorias = getattr(row, "energy_kcal_100g", None)
+                proteinas = getattr(row, "proteins_100g", None)
+                gordura = getattr(row, "fat_100g", None)
+                carboidrato = getattr(row, "carbohydrates_100g", None)
+                
+                if (
+                    not nome or
+                    pd.isna(calorias) or pd.isna(proteinas) or
+                    pd.isna(gordura) or pd.isna(carboidrato) or
+                    calorias <= 0 or proteinas < 0 or
+                    gordura < 0 or carboidrato < 0
+                ):
                     continue
                 
                 existe = conn.execute(text("""
@@ -47,27 +50,23 @@ def importar_alimentos_populares():
                     continue
                 
                 try:
-                    porcao = produto.get("serving_size")
-                    if porcao and "g" in str(porcao).lower():
-                        try:
-                            porcao = float(str(porcao).lower().replace("g", "").strip())
-                        except:
-                            porcao = 100
-                    else:
-                        porcao = 100
+                    serving_size = getattr(row, "serving_size", None)
+                    porcao, tipo = extrair_porcao(serving_size)
                     
                     conn.execute(text("""
-                        INSERT INTO catalogo_alimentos (nome, porcao, calorias, proteinas, carboidratos, gorduras)
-                        VALUES (:nome, :porcao, :calorias, :proteinas, :carboidratos, :gorduras)
+                        INSERT INTO catalogo_alimentos (nome, porcao, tipo_porcao, calorias, proteinas, carboidratos, gorduras)
+                        VALUES (:nome, :porcao, :tipo_porcao, :calorias, :proteinas, :carboidratos, :gorduras)
                     """), {
                         "nome": nome[:100],
                         "porcao": porcao,
+                        "tipo_porcao": tipo,
                         "calorias": calorias,
                         "proteinas": proteinas or 0,
                         "gorduras": gordura or 0,
                         "carboidratos": carboidrato or 0
                     })
                     print(f"Inserido: {nome}")
+                    
                 except Exception as e:
                     print(f"Erro ao inserir {nome}: {e}")
                     raise
@@ -75,5 +74,9 @@ def importar_alimentos_populares():
     print("\nImportação concluída.")
     
 if __name__ == "__main__":
-    importar_alimentos_populares()
+    from pathlib import Path
+
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+    CSV_PATH = BASE_DIR / "data" / "openfoodfacts.csv"
+    importar_alimentos_csv(CSV_PATH)
                     
