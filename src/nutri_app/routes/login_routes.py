@@ -4,7 +4,7 @@ from src.nutri_app.utils.hash import verificar_senha
 from src.nutri_app.utils.user_login import UserLogin
 from src.nutri_app.forms.auth_forms import LoginForm
 from src.nutri_app.forms.auth_forms import RecuperarSenhaForm, RedefinirSenhaForm
-from src.nutri_app.utils.token import gerar_token, validar_token
+from nutri_app.utils.email_token import gerar_token, validar_token
 from src.nutri_app.utils.email_service import enviar_email_reset
 from src.nutri_app.utils.hash import gerar_hash
 from sqlalchemy import text
