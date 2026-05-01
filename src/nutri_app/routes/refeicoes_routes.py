@@ -129,7 +129,8 @@ def listar_refeicoes():
                 r.proteinas, 
                 r.carboidratos, 
                 r.gorduras,
-                r.tipo_refeicao
+                r.tipo_refeicao,
+                r.tipo_porcao
             FROM refeicoes r
             LEFT JOIN catalogo_alimentos c ON r.catalogo_alimento_id = c.id
             WHERE r.usuario_id = :usuario_id 
