@@ -54,8 +54,11 @@ def importar_alimentos_csv(caminho_csv):
                     not nome or
                     pd.isna(calorias) or pd.isna(proteinas) or
                     pd.isna(gordura) or pd.isna(carboidrato) or
-                    calorias <= 0 or proteinas < 0 or
-                    gordura < 0 or carboidrato < 0
+                    calorias <= 0 or calorias > 1000 or
+                    proteinas < 0 or proteinas > 100 or
+                    gordura < 0 or gordura > 100 or
+                    carboidrato < 0 or carboidrato > 100 or
+                    (proteinas + gordura + carboidrato) > 110
                 ):
                     continue
                 
