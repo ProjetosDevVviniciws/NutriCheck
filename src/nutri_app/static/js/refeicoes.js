@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("refeicaoId").value = item.dataset.id;
                 document.getElementById("nomeEditar").value = item.dataset.nome;
                 document.getElementById("porcaoEditar").value = item.dataset.porcao;
+                document.getElementById("porcaoEditar").dataset.tipo_porcao = item.dataset.tipo_porcao;
                 document.getElementById("caloriasEditar").value = item.dataset.calorias;
                 document.getElementById("proteinasEditar").value = item.dataset.proteinas;
                 document.getElementById("carboidratosEditar").value = item.dataset.carboidratos;
