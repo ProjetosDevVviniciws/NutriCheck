@@ -51,7 +51,7 @@ def registrar_refeicao():
             """), {"id": current_user.id, "hoje": hoje})
             
         query_catalogo = text("""
-            SELECT id, nome, porcao, calorias, proteinas, carboidratos, gorduras
+            SELECT id, nome, porcao, tipo_porcao, calorias, proteinas, carboidratos, gorduras
             FROM catalogo_alimentos
             WHERE id = :id
         """)
@@ -68,13 +68,14 @@ def registrar_refeicao():
         gorduras = round(float(alimento.gorduras) * fator, 2)
 
         insert = text('''
-            INSERT INTO refeicoes (usuario_id, catalogo_alimento_id, porcao, data, tipo_refeicao, calorias, proteinas, carboidratos, gorduras)
-            VALUES (:usuario_id, :catalogo_alimento_id, :porcao, :data, :tipo_refeicao, :calorias, :proteinas, :carboidratos, :gorduras)
+            INSERT INTO refeicoes (usuario_id, catalogo_alimento_id, porcao, tipo_porcao, data, tipo_refeicao, calorias, proteinas, carboidratos, gorduras)
+            VALUES (:usuario_id, :catalogo_alimento_id, :porcao, :tipo_porcao, :data, :tipo_refeicao, :calorias, :proteinas, :carboidratos, :gorduras)
         ''')
         conn.execute(insert, {
             "usuario_id": current_user.id,
             "catalogo_alimento_id": alimento_id,
             "porcao": porcao,
+            "tipo_porcao": alimento.tipo_porcao,
             "data": data_refeicao,
             "tipo_refeicao": tipo_refeicao,
             "calorias": calorias,
