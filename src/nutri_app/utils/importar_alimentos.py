@@ -1,6 +1,23 @@
 import pandas as pd
+import re
 from sqlalchemy import text
 from src.nutri_app.database import engine
+
+def extrair_porcao(serving_size):
+    if not serving_size:
+        return 100
+
+    texto = str(serving_size).lower().replace(",", ".").strip()
+
+    match = re.search(r"(\d+(\.\d+)?)\s*(g|ml)", texto)
+
+    if match:
+        valor = float(match.group(1))
+        unidade = match.group(3)
+
+        return valor, unidade
+
+    return 100, "g"  
 
 def importar_alimentos_csv(caminho_csv):
     chunks = pd.read_csv(
