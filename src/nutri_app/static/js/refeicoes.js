@@ -202,7 +202,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 alimento_id: alimentoSelecionado.id,
                 porcao: porcao,
                 tipo_refeicao: tipo_refeicao,
-                data_refeicao: dataSelecionada
+                data_refeicao: dataSelecionada,
+                tipo_porcao: alimentoSelecionado.tipo_porcao
             })
         })
         .then(res => res.json())
