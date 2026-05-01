@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data-carboidratos="${a.carboidratos}"
                                     data-gorduras="${a.gorduras}"
                                     data-tipo="${tipo}">
-                                    <span>${a.alimento} — ${a.porcao}g</span>
+                                    <span>${a.alimento} — ${a.porcao}${a.tipo_porcao}</span>
                                     <span>${a.calorias} kcal</span>
                                 </li>
                             `).join("");
