@@ -24,7 +24,8 @@ def importar_alimentos_csv(caminho_csv):
         caminho_csv,
         sep="\t",
         chunksize=10000,
-        low_memory=False
+        low_memory=False,
+        on_bad_lines="skip"
     )
     
     with engine.begin() as conn:
