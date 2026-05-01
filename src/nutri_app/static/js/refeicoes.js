@@ -139,7 +139,8 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 porcao: porcao,
-                tipo_refeicao: tipo_refeicao
+                tipo_refeicao: tipo_refeicao,
+                tipo_porcao: tipo_porcao
             })
         })
         .then(res => res.json())
