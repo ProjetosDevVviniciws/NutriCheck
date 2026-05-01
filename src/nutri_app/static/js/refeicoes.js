@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btnSalvarRefeicao").addEventListener("click", () => {
         const id = document.getElementById("refeicaoId").value;
         const porcao = document.getElementById("porcaoEditar").value;
+        const tipo_porcao = document.getElementById("porcaoEditar").dataset.tipo_porcao;
         const tipo_refeicao = document.querySelector(`.refeicao-card .refeicao-item[data-id="${id}"]`)?.dataset.tipo;
 
         fetch(`/refeicoes-editar/${id}`, {
