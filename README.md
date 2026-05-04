@@ -177,6 +177,91 @@ poetry shell
 python run.py
 ```
 
+## 🗄️ Criar tabelas no banco de dados
+
+Antes de iniciar a aplicação, é necessário criar as tabelas no banco MySQL.
+
+> ⚠️ Certifique-se de que o banco já foi criado e configurado corretamente no arquivo `.env`.
+
+> ℹ️ Caso esteja utilizando serviços como o Clever Cloud, o banco de dados já é criado automaticamente.  
+> Utilize o nome do banco fornecido nas credenciais da plataforma no lugar de `seu_banco`.
+
+Execute a query abaixo:
+
+```sql
+USE seu_banco;
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    altura DECIMAL(5,2),
+    peso DECIMAL(5,2),
+    idade INT,
+    sexo ENUM('M', 'F'),
+    calorias_meta DECIMAL(6,2),
+    proteinas_meta DECIMAL(6,2),
+    carboidratos_meta DECIMAL(6,2),
+    gorduras_meta DECIMAL(6,2),
+    calorias_consumidas DECIMAL(6,2) DEFAULT 0,
+    proteinas_consumidas DECIMAL(6,2) DEFAULT 0,
+    carboidratos_consumidos DECIMAL(6,2) DEFAULT 0,
+    gorduras_consumidas DECIMAL(6,2) DEFAULT 0,
+    calorias_restantes DECIMAL(6,2) GENERATED ALWAYS AS (calorias_meta - calorias_consumidas) STORED,
+    proteinas_restantes DECIMAL(6,2) GENERATED ALWAYS AS (proteinas_meta - proteinas_consumidas) STORED,
+    carboidratos_restantes DECIMAL(6,2) GENERATED ALWAYS AS (carboidratos_meta - carboidratos_consumidos) STORED,
+    gorduras_restantes DECIMAL(6,2) GENERATED ALWAYS AS (gorduras_meta - gorduras_consumidas) STORED,
+    agua_consumida INT DEFAULT 0,
+    ultima_atualizacao DATE
+);
+
+CREATE TABLE agua_registros ( 
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    data DATE NOT NULL,
+    quantidade_ml INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    CONSTRAINT registro_dia UNIQUE (usuario_id, data) 
+);
+
+CREATE TABLE catalogo_alimentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    porcao DECIMAL(6,2),
+    tipo_porcao ENUM('g', 'ml') DEFAULT 'g',
+    calorias DECIMAL(6,2),
+    proteinas DECIMAL(6,2),
+    carboidratos DECIMAL(6,2),
+    gorduras DECIMAL(6,2)
+);
+
+CREATE TABLE refeicoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    alimento_id INT NULL,
+    catalogo_alimento_id INT NULL,
+    porcao DECIMAL(6,2) NOT NULL,
+    tipo_porcao ENUM('g', 'ml') DEFAULT 'g',
+    calorias DECIMAL(6,2),
+    proteinas DECIMAL(6,2),
+    carboidratos DECIMAL(6,2),
+    gorduras DECIMAL(6,2),
+    tipo_refeicao VARCHAR(50),
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (catalogo_alimento_id) REFERENCES catalogo_alimentos(id) ON DELETE CASCADE
+);
+
+CREATE TABLE progressao_peso (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    peso DECIMAL(5,2) NOT NULL,
+    data DATE NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+```
+
 ## 🚀 Considerações finais
 
 O **NutriCheck** foi desenvolvido com foco em aprendizado prático e aplicação de conceitos modernos de desenvolvimento web, integrando backend, frontend, banco de dados e serviços externos em um único sistema funcional.
