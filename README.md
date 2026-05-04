@@ -131,9 +131,10 @@ NutriCheck/
 │       ├── utils/               # Regras de negócio e utilidades
 │       │   ├── email_service.py     # Envio de e-mails
 │       │   ├── macros.py            # Cálculo de calorias/macronutrientes
-│       │   ├── token.py             # Geração de tokens (reset senha)
+│       │   ├── email_token.py       # Geração de tokens (reset senha)
 │       │   ├── static_utils.py      # Versionamento de arquivos estáticos
 │       │   ├── hash.py              # Criptografia de senha
+│       │   ├── importar_alimentos.py # Importação de alimentos via CSV com validação e tratamento de dados
 │       │   └── decorators.py        # Decoradores personalizados
 │       │
 │       ├── database.py          # Configuração do banco de dados
