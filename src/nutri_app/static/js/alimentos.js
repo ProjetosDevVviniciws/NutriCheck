@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function recalcularMacros(porcao) {
     porcao = safeNumber(porcao)
     if (porcao > 0) {
-      caloriasInput.value = ((porcao / 100) * originalMacros.calorias).toFixed(2);
-      proteinasInput.value = ((porcao / 100) * originalMacros.proteinas).toFixed(2);
-      carboidratosInput.value = ((porcao / 100) * originalMacros.carboidratos).toFixed(2);
-      gordurasInput.value = ((porcao / 100) * originalMacros.gorduras).toFixed(2);
+      caloriasInput.value = `${((porcao / 100) * originalMacros.calorias).toFixed(2)} kcal`;
+      proteinasInput.value = `${((porcao / 100) * originalMacros.proteinas).toFixed(2)} g`;
+      carboidratosInput.value = `${((porcao / 100) * originalMacros.carboidratos).toFixed(2)} g`;
+      gordurasInput.value = `${((porcao / 100) * originalMacros.gorduras).toFixed(2)} g`;
     } else {
       caloriasInput.value = proteinasInput.value = carboidratosInput.value = gordurasInput.value = '';
     }
@@ -74,10 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!item) return;
 
       nomeInput.value = item.nome || '';
-      caloriasInput.value = item.calorias || 0;
-      proteinasInput.value = item.proteinas || 0;
-      carboidratosInput.value = item.carboidratos || 0;
-      gordurasInput.value = item.gorduras || 0;
+      caloriasInput.value = `${item.calorias || 0} kcal`;
+      proteinasInput.value = `${item.proteinas || 0} g`;
+      carboidratosInput.value = `${item.carboidratos || 0} g`;
+      gordurasInput.value = `${item.gorduras || 0} g`;
       atualizarMacrosOriginais();
 
       if (window.setAlimentoSelecionado) {
