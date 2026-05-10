@@ -146,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
             item.addEventListener("click", () => {
                 document.getElementById("refeicaoId").value = item.dataset.id;
                 document.getElementById("nomeEditar").value = item.dataset.nome;
-                document.getElementById("porcaoEditar").value = item.dataset.porcao;
                 document.getElementById("porcaoEditar").dataset.tipo_porcao = item.dataset.tipo_porcao;
                 macrosOriginaisEditar.calorias =
                 (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
@@ -166,6 +165,10 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+
+    document.getElementById("porcaoEditar").addEventListener("input", (e) => {
+        recalcularMacrosEditar(e.target.value);
+    });
 
     document.getElementById("btnSalvarRefeicao").addEventListener("click", () => {
         const id = document.getElementById("refeicaoId").value;
