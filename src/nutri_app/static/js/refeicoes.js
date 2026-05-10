@@ -56,6 +56,29 @@ document.addEventListener("DOMContentLoaded", function () {
         return `${ano}-${mes}-${dia}`;
     }
 
+    function safeNumber(value) {
+        let num = parseFloat(value);
+        return isNaN(num) ? 0 : num;
+    }
+
+    function recalcularMacrosEditar(porcao) {
+    porcao = safeNumber(porcao);
+
+    if (porcao > 0) {
+            document.getElementById("caloriasEditar").value =
+                `${((porcao / 100) * macrosOriginaisEditar.calorias).toFixed(2)} kcal`;
+
+            document.getElementById("proteinasEditar").value =
+                `${((porcao / 100) * macrosOriginaisEditar.proteinas).toFixed(2)} g`;
+
+            document.getElementById("carboidratosEditar").value =
+                `${((porcao / 100) * macrosOriginaisEditar.carboidratos).toFixed(2)} g`;
+
+            document.getElementById("gordurasEditar").value =
+                `${((porcao / 100) * macrosOriginaisEditar.gorduras).toFixed(2)} g`;
+        }
+    }
+
     function atualizarTotais(totais) {
         if (!totais) return;
         document.querySelector("#totais-calorias").textContent = `${totais.calorias_consumidas} kcal`;
