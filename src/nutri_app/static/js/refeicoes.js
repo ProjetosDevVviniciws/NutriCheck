@@ -148,10 +148,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("nomeEditar").value = item.dataset.nome;
                 document.getElementById("porcaoEditar").value = item.dataset.porcao;
                 document.getElementById("porcaoEditar").dataset.tipo_porcao = item.dataset.tipo_porcao;
-                document.getElementById("caloriasEditar").value = `${item.dataset.calorias} kcal`;
-                document.getElementById("proteinasEditar").value = `${item.dataset.proteinas} g`;
-                document.getElementById("carboidratosEditar").value = `${item.dataset.carboidratos} g`;
-                document.getElementById("gordurasEditar").value = `${item.dataset.gorduras} g`;
+                macrosOriginaisEditar.calorias =
+                (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
+
+                macrosOriginaisEditar.proteinas =
+                    (safeNumber(item.dataset.proteinas) / safeNumber(item.dataset.porcao)) * 100;
+
+                macrosOriginaisEditar.carboidratos =
+                    (safeNumber(item.dataset.carboidratos) / safeNumber(item.dataset.porcao)) * 100;
+
+                macrosOriginaisEditar.gorduras =
+                    (safeNumber(item.dataset.gorduras) / safeNumber(item.dataset.porcao)) * 100;
+
+                recalcularMacrosEditar(item.dataset.porcao);
 
                 modalEditar.show();
             });
