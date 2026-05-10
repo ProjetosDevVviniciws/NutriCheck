@@ -32,6 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let dataAtual = new Date(hoje);
     let alimentoSelecionado = null;
 
+    let macrosOriginaisEditar = {
+        calorias: 0,
+        proteinas: 0,
+        carboidratos: 0,
+        gorduras: 0
+    };
+
     const atualizarDataDisplay = () => {
         if (dataSpan) {
             dataSpan.textContent = dataAtual.toLocaleDateString("pt-BR");
