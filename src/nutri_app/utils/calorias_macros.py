@@ -40,3 +40,11 @@ def calcular_restantes_from_totais(metas, totais):
         "carboidratos_restantes": round(float(metas["carboidratos_meta"]) - float(totais["carboidratos_consumidos"]), 2),
         "gorduras_restantes": round(float(metas["gorduras_meta"]) - float(totais["gorduras_consumidas"]), 2),
     }
+    
+def formatar_valor_nutricional(valor):
+    valor = round(float(valor or 0), 2)
+
+    if valor.is_integer():
+        return int(valor)
+
+    return valor
