@@ -79,20 +79,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function formatarNumero(valor) {
+        return parseFloat(valor)
+            .toFixed(2)
+            .replace(/\.00$/, '')
+            .replace(/(\.\d)0$/, '$1');
+    }
+
     function atualizarTotais(totais) {
         if (!totais) return;
-        document.querySelector("#totais-calorias").textContent = `${totais.calorias_consumidas} kcal`;
-        document.querySelector("#totais-proteinas").textContent = `${totais.proteinas_consumidas} g`;
-        document.querySelector("#totais-carboidratos").textContent = `${totais.carboidratos_consumidos} g`;
-        document.querySelector("#totais-gorduras").textContent = `${totais.gorduras_consumidas} g`;
+        document.querySelector("#totais-calorias").textContent = `${formatarNumero(totais.calorias_consumidas)} kcal`;
+        document.querySelector("#totais-proteinas").textContent = `${formatarNumero(totais.proteinas_consumidas)} g`;
+        document.querySelector("#totais-carboidratos").textContent = `${formatarNumero(totais.carboidratos_consumidos)} g`;
+        document.querySelector("#totais-gorduras").textContent = `${formatarNumero(totais.gorduras_consumidas)} g`;
     }
 
     function atualizarRestantes(restantes) {
         if (!restantes) return;
-        document.querySelector("#restantes-calorias").textContent = `${restantes.calorias_restantes} kcal`;
-        document.querySelector("#restantes-proteinas").textContent = `${restantes.proteinas_restantes} g`;
-        document.querySelector("#restantes-carboidratos").textContent = `${restantes.carboidratos_restantes} g`;
-        document.querySelector("#restantes-gorduras").textContent = `${restantes.gorduras_restantes} g`;
+        document.querySelector("#restantes-calorias").textContent = `${formatarNumero(restantes.calorias_restantes)} kcal`;
+        document.querySelector("#restantes-proteinas").textContent = `${formatarNumero(restantes.proteinas_restantes)} g`;
+        document.querySelector("#restantes-carboidratos").textContent = `${formatarNumero(restantes.carboidratos_restantes)} g`;
+        document.querySelector("#restantes-gorduras").textContent = `${formatarNumero(restantes.gorduras_restantes)} g`;
     }
 
     function carregarRefeicoes() {
