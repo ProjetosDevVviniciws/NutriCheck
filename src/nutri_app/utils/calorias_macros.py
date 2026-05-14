@@ -48,3 +48,9 @@ def formatar_valor_nutricional(valor):
         return int(valor)
 
     return valor
+
+def formatar_dados_nutricionais(dados):
+    return {
+        chave: formatar_valor_nutricional(valor)
+        for chave, valor in dados.items()
+    }
