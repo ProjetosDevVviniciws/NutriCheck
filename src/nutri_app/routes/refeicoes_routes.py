@@ -6,7 +6,8 @@ from src.nutri_app.database import engine
 from src.nutri_app.utils.calorias_macros import (
     calcular_restantes_from_totais,
     buscar_metas_conn,
-    calcular_totais_conn
+    calcular_totais_conn,
+    formatar_dados_nutricionais
 )
 
 refeicoes_bp = Blueprint('refeicoes', __name__)
@@ -102,11 +103,10 @@ def registrar_refeicao():
             "hoje": hoje
         })
         
-        totais = calcular_totais_conn(conn, current_user.id, data_refeicao)
-        metas = buscar_metas_conn(conn, current_user.id)
-        restantes = calcular_restantes_from_totais(metas, totais)
-        
-    return jsonify({'mensagem': 'Refeição registrada com sucesso', 'totais': totais, 'restantes': restantes})
+        totais = formatar_dados_nutricionais(calcular_totais_conn(conn, current_user.id, data_refeicao))
+        metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
+        restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
+    return jsonify({'mensagem': 'Refeição registrada com sucesso', 'totais': totais, 'restantes': restantes, 'metas': metas})
 
 @refeicoes_bp.route("/refeicoes-listar")
 @login_required
@@ -144,11 +144,11 @@ def listar_refeicoes():
         
         registros = [dict(row) for row in result.mappings()]
         
-        totais = calcular_totais_conn(conn, current_user.id, data_refeicao)
+        totais = formatar_dados_nutricionais(calcular_totais_conn(conn, current_user.id, data_refeicao))
 
-        metas = buscar_metas_conn(conn, current_user.id)
+        metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
 
-        restantes = calcular_restantes_from_totais(metas, totais)
+        restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
         
     refeicoes_por_tipo = {tipo: [] for tipo in tipos_fixos}
     for r in registros:
@@ -160,7 +160,8 @@ def listar_refeicoes():
     return jsonify({
         "refeicoes": refeicoes_por_tipo,
         "totais": totais,
-        "restantes": restantes
+        "restantes": restantes,
+        "metas": metas
     })
 
 @refeicoes_bp.route("/refeicoes-editar/<int:id>", methods=['PUT'])
@@ -254,11 +255,11 @@ def editar_refeicao(id):
         })
         
         data_refeicao = datetime.now().date()
-        totais = calcular_totais_conn(conn, current_user.id, data_refeicao)
-        metas = buscar_metas_conn(conn, current_user.id)
-        restantes = calcular_restantes_from_totais(metas, totais)
+        totais = formatar_dados_nutricionais(calcular_totais_conn(conn, current_user.id, data_refeicao))
+        metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
+        restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
         
-    return jsonify({'mensagem': 'Refeição atualizada com sucesso', 'totais': totais, 'restantes': restantes})
+    return jsonify({'mensagem': 'Refeição atualizada com sucesso', 'totais': totais, 'restantes': restantes, 'metas': metas})
 
 @refeicoes_bp.route("/refeicoes-excluir/<int:id>", methods=['DELETE'])
 @login_required
@@ -295,8 +296,8 @@ def excluir_refeicao(id):
         })
 
         data_refeicao = refeicao["data"]
-        totais = calcular_totais_conn(conn, current_user.id, data_refeicao)
-        metas = buscar_metas_conn(conn, current_user.id)
-        restantes = calcular_restantes_from_totais(metas, totais)
+        totais = formatar_dados_nutricionais(calcular_totais_conn(conn, current_user.id, data_refeicao))
+        metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
+        restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
         
-    return jsonify({'mensagem': 'Refeição excluída com sucesso', 'totais': totais, 'restantes': restantes})
+    return jsonify({'mensagem': 'Refeição excluída com sucesso', 'totais': totais, 'restantes': restantes, 'metas': metas})
