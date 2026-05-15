@@ -106,7 +106,7 @@ def registrar_refeicao():
         totais = formatar_dados_nutricionais(calcular_totais_conn(conn, current_user.id, data_refeicao))
         metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
         restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
-    return jsonify({'mensagem': 'Refeição registrada com sucesso', 'totais': totais, 'restantes': restantes, 'metas': metas})
+    return jsonify({'mensagem': 'Refeição registrada com sucesso', 'totais': totais, 'restantes': restantes})
 
 @refeicoes_bp.route("/refeicoes-listar")
 @login_required
@@ -259,7 +259,7 @@ def editar_refeicao(id):
         metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
         restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
         
-    return jsonify({'mensagem': 'Refeição atualizada com sucesso', 'totais': totais, 'restantes': restantes, 'metas': metas})
+    return jsonify({'mensagem': 'Refeição atualizada com sucesso', 'totais': totais, 'restantes': restantes})
 
 @refeicoes_bp.route("/refeicoes-excluir/<int:id>", methods=['DELETE'])
 @login_required
@@ -300,4 +300,4 @@ def excluir_refeicao(id):
         metas = formatar_dados_nutricionais(buscar_metas_conn(conn, current_user.id))
         restantes = formatar_dados_nutricionais(calcular_restantes_from_totais(metas, totais))
         
-    return jsonify({'mensagem': 'Refeição excluída com sucesso', 'totais': totais, 'restantes': restantes, 'metas': metas})
+    return jsonify({'mensagem': 'Refeição excluída com sucesso', 'totais': totais, 'restantes': restantes})
