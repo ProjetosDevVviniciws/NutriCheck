@@ -4,6 +4,8 @@ from flask_login import LoginManager
 import os
 from dotenv import load_dotenv
 
+
+
 load_dotenv()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -18,7 +20,7 @@ def create_app():
     login_manager.login_view = 'login.login'
     login_manager.login_message = 'Por favor, realize o login'
     login_manager.login_message_category = 'info'
-
+    
     from .routes.login_routes import login_bp
     from .routes.auth_routes import auth_bp
     from .routes.home_routes import home_bp
@@ -27,9 +29,12 @@ def create_app():
     from .routes.alimentos_routes import alimentos_bp
     from .routes.agua_routes import agua_bp
     from .routes.progressao_routes import progressao_bp
-    from .utils.static_utils import static_versioned   
+    from .utils.static_utils import static_versioned
+    from src.nutri_app.utils.calorias_macros import formatar_numero   
     
     app.jinja_env.globals['static_versioned'] = static_versioned
+    app.jinja_env.filters['formatar_numero'] = formatar_numero
+    
     app.register_blueprint(login_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(home_bp)
