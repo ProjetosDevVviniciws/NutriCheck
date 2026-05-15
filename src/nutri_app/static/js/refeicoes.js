@@ -86,6 +86,14 @@ document.addEventListener("DOMContentLoaded", function () {
             .replace(/(\.\d)0$/, '$1');
     }
 
+    function atualizarMetas(metas) {
+        if (!metas) return;
+        document.querySelector("#meta-calorias").textContent = `${formatarNumero(metas.calorias_meta)} kcal`;
+        document.querySelector("#meta-proteinas").textContent = `${formatarNumero(metas.proteinas_meta)} g`;
+        document.querySelector("#meta-carboidratos").textContent = `${formatarNumero(metas.carboidratos_meta)} g`;
+        document.querySelector("#meta-gorduras").textContent = `${formatarNumero(metas.gorduras_meta)} g`;
+    }
+
     function atualizarTotais(totais) {
         if (!totais) return;
         document.querySelector("#totais-calorias").textContent = `${formatarNumero(totais.calorias_consumidas)} kcal`;
@@ -111,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const refeicoes = dados.refeicoes || {};
                 const totais = dados.totais || {};
                 const restantes = dados.restantes || {};
+                const metas = dados.metas || {};
 
                 document.querySelectorAll(".refeicao-card").forEach(card => {
                     card.querySelector(".alimentos-list").innerHTML =
@@ -144,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 atualizarTotais(totais);
                 atualizarRestantes(restantes);
+                atualizarMetas(metas);
             })
             .catch(err => console.error("Erro ao carregar refeições:", err));
     }
