@@ -4,8 +4,6 @@ from flask_login import LoginManager
 import os
 from dotenv import load_dotenv
 
-
-
 load_dotenv()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
