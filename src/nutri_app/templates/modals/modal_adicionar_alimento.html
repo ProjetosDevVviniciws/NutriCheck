@@ -15,9 +15,22 @@
               <label class="form-label-custom">Nome</label>
               <input type="text" class="form-control text-center" id="nome" name="nome" readonly>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label class="form-label-custom">Porção</label>
-              <input type="number" class="form-control text-center" id="porcao" name="porcao" min="1" value="100">
+              <div class="input-group">
+                <input
+                  type="number"
+                  class="form-control text-center"
+                  id="porcao"
+                  name="porcao"
+                  min="1"
+                  value="100"
+                >
+
+                <span class="input-group-text" id="unidadePorcao">
+                  g
+                </span>
+              </div>
             </div>
           </div>
 
