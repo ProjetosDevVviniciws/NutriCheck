@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const proteinasInput = document.getElementById('proteinas');
   const carboidratosInput = document.getElementById('carboidratos');
   const gordurasInput = document.getElementById('gorduras');
+  const tipoPorcaoInput = document.getElementById('unidadePorcao');
 
   let originalMacros = {
     calorias: 0,
@@ -58,7 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
             calorias: item.calorias,
             proteinas: item.proteinas,
             carboidratos: item.carboidratos,
-            gorduras: item.gorduras
+            gorduras: item.gorduras,
+            tipo_porcao: item.tipo_porcao
           })));
         })
         .catch(() => callback());
@@ -78,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       proteinasInput.value = `${item.proteinas || 0} g`;
       carboidratosInput.value = `${item.carboidratos || 0} g`;
       gordurasInput.value = `${item.gorduras || 0} g`;
+      tipoPorcaoInput.textContent = item.tipo_porcao || "g";
       atualizarMacrosOriginais();
 
       if (window.setAlimentoSelecionado) {
