@@ -14,7 +14,7 @@ def buscar_alimentos():
 
     with engine.connect() as conn:
         result_catalogo = conn.execute(text("""
-            SELECT id, nome, calorias, proteinas, carboidratos, gorduras
+            SELECT id, nome, calorias, proteinas, carboidratos, gorduras, tipo_porcao
             FROM catalogo_alimentos
             WHERE nome LIKE :termo
         """), {"termo": f"%{termo}%"}).mappings().all()
@@ -27,7 +27,8 @@ def buscar_alimentos():
             "calorias": float(row.get("calorias") or 0),
             "proteinas": float(row.get("proteinas") or 0),
             "carboidratos": float(row.get("carboidratos") or 0),
-            "gorduras": float(row.get("gorduras") or 0)
+            "gorduras": float(row.get("gorduras") or 0),
+            "tipo_porcao": row.get("tipo_porcao") or "g"
         })
 
     return jsonify(alimentos)
