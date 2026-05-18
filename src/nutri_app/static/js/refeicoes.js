@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     const tipoHidden = document.getElementById("tipo-refeicao-hidden");
     const modalEditar = new bootstrap.Modal(document.getElementById("modalEditarRefeicao"));
+    const tipoPorcaoInput = document.getElementById('tipoPorcao');
     const dataSpan = document.getElementById("data-selecionada");
     const seletorData = document.getElementById("seletor-data");
     const btnAnterior = document.getElementById("dia-anterior");
@@ -140,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data-proteinas="${a.proteinas}"
                                     data-carboidratos="${a.carboidratos}"
                                     data-gorduras="${a.gorduras}"
-                                    data-tipo="${tipo}">
+                                    data-tipo="${tipo}"
+                                    data-tipo_porcao="${a.tipo_porcao}">
                                     <span>${a.alimento} — ${a.porcao}${a.tipo_porcao}</span>
                                     <span>${a.calorias} kcal</span>
                                 </li>
@@ -163,7 +164,9 @@ document.addEventListener("DOMContentLoaded", function () {
             item.addEventListener("click", () => {
                 document.getElementById("refeicaoId").value = item.dataset.id;
                 document.getElementById("nomeEditar").value = item.dataset.nome;
+                tipoPorcaoInput.textContent = item.dataset.tipo_porcao || "g";
                 document.getElementById("porcaoEditar").dataset.tipo_porcao = item.dataset.tipo_porcao;
+
                 macrosOriginaisEditar.calorias =
                 (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
 
@@ -190,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btnSalvarRefeicao").addEventListener("click", () => {
         const id = document.getElementById("refeicaoId").value;
         const porcao = document.getElementById("porcaoEditar").value;
-        const tipo_porcao = document.getElementById("porcaoEditar").dataset.tipo_porcao;
+        const tipo_porcao = document.getElementById("tipoPorcaoEditar").dataset.tipo_porcao;
         const tipo_refeicao = document.querySelector(`.refeicao-card .refeicao-item[data-id="${id}"]`)?.dataset.tipo;
 
         fetch(`/refeicoes-editar/${id}`, {
