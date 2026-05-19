@@ -142,8 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data-gorduras="${a.gorduras}"
                                     data-tipo="${tipo}"
                                     data-tipo_porcao="${a.tipo_porcao}">
-                                    <span>${a.alimento} — ${a.porcao}${a.tipo_porcao}</span>
-                                    <span>${a.calorias} kcal</span>
+                                    <span>${a.alimento} — ${formatarNumero(a.porcao)}${a.tipo_porcao}</span>
+                                    <span>${formatarNumero(a.calorias)} kcal</span>
                                 </li>
                             `).join("");
 
