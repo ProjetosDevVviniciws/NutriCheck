@@ -66,16 +66,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (porcao > 0) {
             document.getElementById("caloriasEditar").value =
-                `${((porcao / 100) * macrosOriginaisEditar.calorias).toFixed(2)} kcal`;
+                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.calorias)} kcal`;
 
             document.getElementById("proteinasEditar").value =
-                `${((porcao / 100) * macrosOriginaisEditar.proteinas).toFixed(2)} g`;
+                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.proteinas)} g`;
 
             document.getElementById("carboidratosEditar").value =
-                `${((porcao / 100) * macrosOriginaisEditar.carboidratos).toFixed(2)} g`;
+                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.carboidratos)} g`;
 
             document.getElementById("gordurasEditar").value =
-                `${((porcao / 100) * macrosOriginaisEditar.gorduras).toFixed(2)} g`;
+                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.gorduras)} g`;
         }
     }
 
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("porcaoEditar").dataset.tipo_porcao = item.dataset.tipo_porcao;
 
                 macrosOriginaisEditar.calorias =
-                (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
+                    (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
 
                 macrosOriginaisEditar.proteinas =
                     (safeNumber(item.dataset.proteinas) / safeNumber(item.dataset.porcao)) * 100;
