@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("refeicaoId").value = item.dataset.id;
                 document.getElementById("nomeEditar").value = item.dataset.nome;
                 tipoPorcaoInput.textContent = item.dataset.tipo_porcao || "g";
-                document.getElementById("porcaoEditar").dataset.tipo_porcao = item.dataset.tipo_porcao;
+                document.getElementById("porcaoEditar").value = formatarNumero(item.dataset.porcao);
 
                 macrosOriginaisEditar.calorias =
                     (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
