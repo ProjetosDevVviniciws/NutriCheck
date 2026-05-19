@@ -51,7 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
     recalcularMacros(parseFloat(porcaoInput.value));
   });
 
-  new TomSelect(nomeBuscaInput, {
+  document.getElementById("modalAdicionarAlimento")
+    .addEventListener("hidden.bs.modal", () => {
+
+      document.getElementById("formAdicionarAlimento").reset();
+      
+      tomSelect.clear();
+
+      nomeInput.value = '';
+      caloriasInput.value = '';
+      proteinasInput.value = '';
+      carboidratosInput.value = '';
+      gordurasInput.value = '';
+
+      tipoPorcaoInput.textContent = 'g';
+
+      originalMacros = {
+        calorias: 0,
+        proteinas: 0,
+        carboidratos: 0,
+        gorduras: 0
+      };
+  });
+
+  const tomSelect = new TomSelect(nomeBuscaInput, {
     valueField: "id",
     labelField: "nome",
     searchField: "nome",
