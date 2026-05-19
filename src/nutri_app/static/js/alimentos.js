@@ -23,13 +23,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function recalcularMacros(porcao) {
     porcao = safeNumber(porcao)
     if (porcao > 0) {
-      caloriasInput.value = `${((porcao / 100) * originalMacros.calorias).toFixed(2)} kcal`;
-      proteinasInput.value = `${((porcao / 100) * originalMacros.proteinas).toFixed(2)} g`;
-      carboidratosInput.value = `${((porcao / 100) * originalMacros.carboidratos).toFixed(2)} g`;
-      gordurasInput.value = `${((porcao / 100) * originalMacros.gorduras).toFixed(2)} g`;
+      caloriasInput.value = `${formatarNumero((porcao / 100) * originalMacros.calorias)} kcal`;
+      proteinasInput.value = `${formatarNumero((porcao / 100) * originalMacros.proteinas)} g`;
+      carboidratosInput.value = `${formatarNumero((porcao / 100) * originalMacros.carboidratos)} g`;
+      gordurasInput.value = `${formatarNumero((porcao / 100) * originalMacros.gorduras)} g`;
     } else {
       caloriasInput.value = proteinasInput.value = carboidratosInput.value = gordurasInput.value = '';
     }
+  }
+
+  function formatarNumero(valor) {
+    return parseFloat(valor)
+      .toFixed(2)
+      .replace(/\.00$/, '')
+      .replace(/(\.\d)0$/, '$1');
   }
 
   window.atualizarMacrosOriginais = function () {
@@ -76,10 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!item) return;
 
       nomeInput.value = item.nome || '';
-      caloriasInput.value = `${item.calorias || 0} kcal`;
-      proteinasInput.value = `${item.proteinas || 0} g`;
-      carboidratosInput.value = `${item.carboidratos || 0} g`;
-      gordurasInput.value = `${item.gorduras || 0} g`;
+      caloriasInput.value = `${formatarNumero(item.calorias || 0)} kcal`;
+      proteinasInput.value = `${formatarNumero(item.proteinas || 0)} g`;
+      carboidratosInput.value = `${formatarNumero(item.carboidratos || 0)} g`;
+      gordurasInput.value = `${formatarNumero(item.gorduras || 0)} g`;
       tipoPorcaoInput.textContent = item.tipo_porcao || "g";
       atualizarMacrosOriginais();
 
