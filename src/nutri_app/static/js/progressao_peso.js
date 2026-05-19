@@ -4,11 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
         focus: false
     });
     const inputPeso = document.getElementById("input-peso");
-    const inputData = document.getElementById("input-data");
+    const inputDataRegistro = document.getElementById("input-data-registro");
+    const inputDataEditar = document.getElementById("input-data-editar");
     const btnRegistrar = document.getElementById("btnRegistrarProgresso");
     const erro = document.getElementById("erro-progressao");
 
-    flatpickr("#input-data", {
+    flatpickr("#input-data-registro", {
         locale: "pt",
         dateFormat: "Y-m-d",   
         altInput: true,
@@ -163,6 +164,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let dataRegistroSelecionado = null;
 
+    const calendario = flatpickr("#input-data-editar", {
+        locale: "pt",
+        dateFormat: "Y-m-d",   
+        altInput: true,
+        altFormat: "d/m/Y",    
+        defaultDate: "today",
+        allowInput: false,
+        position: "below",
+        static: false,
+        clickOpens: true,
+        disableMobile: true,
+
+    });
+
     modalEditarEl.addEventListener("shown.bs.modal", () => {
         erroEditar.classList.add("d-none");
         erroEditar.textContent = "";
@@ -178,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dataRegistroSelecionado = data;
 
         inputEditarPeso.value = peso;
-        inputEditarData.value = data;
+        calendario.setDate(data, true);
 
         modalEditar.show();
     }
