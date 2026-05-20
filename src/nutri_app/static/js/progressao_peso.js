@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let dataRegistroSelecionado = null;
 
-    const calendario = flatpickr("#input-data-editar", {
+    const calendarioEditar = flatpickr("#input-data-editar", {
         locale: "pt",
         dateFormat: "Y-m-d",   
         altInput: true,
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dataRegistroSelecionado = data;
 
         inputEditarPeso.value = peso;
-        calendario.setDate(data, true);
+        calendarioEditar.setDate(data, true);
 
         modalEditar.show();
     }
