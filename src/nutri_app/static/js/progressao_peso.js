@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnRegistrar = document.getElementById("btnRegistrarProgresso");
     const erro = document.getElementById("erro-progressao");
 
-    flatpickr("#input-data-registro", {
+    const calendarioRegistro = flatpickr("#input-data-registro", {
         locale: "pt",
         dateFormat: "Y-m-d",   
         altInput: true,
@@ -28,12 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
         erro.textContent = "";
     });
     
+    modalElement.addEventListener("hidden.bs.modal", () => {
+        inputPeso.value = '';
+        calendarioRegistro.setDate("today", true);
+    });
+
     btnRegistrar.addEventListener("click", async (e) => {
         erro.classList.add("d-none");
         erro.textContent = "";
 
         const peso = inputPeso.value;
-        const data = inputData.value;
+        const data = inputDataRegistro.value;
 
         if (!peso || peso <= 0) {
             erro.textContent = "Informe um peso válido.";
