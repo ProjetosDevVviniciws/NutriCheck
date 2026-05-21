@@ -5,6 +5,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const senhaInput = document.getElementById("senha-input");
   const iconeSenha = document.getElementById("icone-senha");
 
+  function safeNumber(value) {
+    let num = parseFloat(value)
+    return isNaN(num) ? 0 : num;
+  }
+
+  function formatarNumero(valor) {
+    return parseFloat(valor)
+      .toFixed(2)
+      .replace(/\.00$/, '')
+      .replace(/(\.\d)0$/, '$1');
+  }
+
   if (!toggleSenha || !senhaInput || !iconeSenha) return;
     toggleSenha.addEventListener("click", () => {
         const isPassword = senhaInput.type === "password";
@@ -18,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       document.getElementById("nome").value = data.nome || "";
-      document.getElementById("altura").value = data.altura || "";
-      document.getElementById("peso").value = data.peso || "";
+      document.getElementById("altura").value = formatarNumero(data.altura || " ");
+      document.getElementById("peso").value = formatarNumero(data.peso || " ");
       document.getElementById("idade").value = data.idade || "";
       document.getElementById("sexo").value = data.sexo || "M";
     });
@@ -29,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const payload = {
       nome: document.getElementById("nome").value,
-      altura: document.getElementById("altura").value.replace(",", "."),
-      peso: document.getElementById("peso").value.replace(",", "."),
+      altura: formatarNumero(safeNumber(document.getElementById("altura").value.replace(",", "."))),
+      peso: formatarNumero(safeNumber(document.getElementById("peso").value.replace(",", "."))),
       idade: document.getElementById("idade").value,
       sexo: document.getElementById("sexo").value,
       senha: document.getElementById("senha-input").value
