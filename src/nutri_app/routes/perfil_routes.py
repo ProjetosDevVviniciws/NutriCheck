@@ -8,7 +8,7 @@ from datetime import date
 
 perfil_bp = Blueprint('perfil', __name__)
 
-@perfil_bp.route("/perfil-dados")
+@perfil_bp.route("/perfil")
 @login_required
 def perfil():
     with engine.connect() as conn:
