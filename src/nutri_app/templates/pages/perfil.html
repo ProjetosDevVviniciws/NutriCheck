@@ -27,29 +27,29 @@
                 <form id="perfil-form">
                     <div class="mb-3">
                         <label for="nome" class="form-label-custom">Nome</label>
-                        <input type="text" id="nome" class="form-control" placeholder="Informe seu nome" required>
+                        <input type="text" id="nome" class="form-control" value="{{ usuario.nome if usuario else '' }}" placeholder="Informe seu nome" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="altura" class="form-label-custom">Altura (cm)</label>
-                        <input type="number" id="altura" class="form-control" min="50" max="250" step="0.1" placeholder="Informe sua altura" required>
+                        <input type="number" id="altura" class="form-control" min="50" max="250" step="0.1" value="{{ usuario.altura if usuario else '' }}" placeholder="Informe sua altura" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="peso" class="form-label-custom">Peso (kg)</label>
-                        <input type="number" id="peso" class="form-control" min="20" max="300" step="0.1" placeholder="Informe seu peso" required>
+                        <input type="number" id="peso" class="form-control" min="20" max="300" step="0.1" value="{{ usuario.peso if usuario else '' }}" placeholder="Informe seu peso" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="idade" class="form-label-custom">Idade</label>
-                        <input type="number" id="idade" class="form-control" min="10" max="120" placeholder="Informe sua idade" required>
+                        <input type="number" id="idade" class="form-control" min="10" max="120" value="{{ usuario.idade if usuario else '' }}" placeholder="Informe sua idade" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="sexo" class="form-label-custom">Sexo</label>
                         <select id="sexo" class="form-select" required>
-                            <option value="M">Masculino</option>
-                            <option value="F">Feminino</option>
+                            <option value="M" {% if usuario and usuario.sexo == "M" %}selected{% endif %}>Masculino</option>
+                            <option value="F" {% if usuario and usuario.sexo == "F" %}selected{% endif %}>Feminino</option>
                         </select>
                     </div>
 
