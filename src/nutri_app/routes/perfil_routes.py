@@ -8,14 +8,9 @@ from datetime import date
 
 perfil_bp = Blueprint('perfil', __name__)
 
-@perfil_bp.route("/perfil")
-@login_required
-def perfil_page():
-    return render_template("pages/perfil.html")
-
 @perfil_bp.route("/perfil-dados")
 @login_required
-def perfil_dados():
+def perfil():
     with engine.connect() as conn:
         usuario = conn.execute(text("""
             SELECT nome, altura, peso, idade, sexo,
@@ -24,17 +19,10 @@ def perfil_dados():
             WHERE id = :id
         """), {"id": current_user.id}).mappings().first()
     
-    return jsonify({
-        "nome": usuario["nome"],
-        "altura": usuario["altura"] or "",
-        "peso": usuario["peso"] or "",
-        "idade": usuario["idade"] or "",
-        "sexo": usuario["sexo"] or "",
-        "calorias_meta": usuario["calorias_meta"],
-        "proteinas_meta": usuario["proteinas_meta"],
-        "carboidratos_meta": usuario["carboidratos_meta"],
-        "gorduras_meta": usuario["gorduras_meta"]
-    }), 200
+    return render_template(
+        "pages/perfil.html", 
+        usuario=usuario
+    )
 
 @perfil_bp.route("/perfil-atualizar", methods=["PUT"])
 @login_required
