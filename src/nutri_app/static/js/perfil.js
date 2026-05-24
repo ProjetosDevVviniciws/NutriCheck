@@ -26,16 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
         iconeSenha.classList.toggle("fa-eye-slash");
     });
 
-  fetch("/perfil-dados")
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("nome").value = data.nome || "";
-      document.getElementById("altura").value = formatarNumero(data.altura || " ");
-      document.getElementById("peso").value = formatarNumero(data.peso || " ");
-      document.getElementById("idade").value = data.idade || "";
-      document.getElementById("sexo").value = data.sexo || "M";
-    });
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
