@@ -20,6 +20,14 @@
     padding: clamp(0.5rem, 1.5vw, 0.75rem);
 }
 
+.auth-card #toggle-senha1, .auth-card #toggle-senha2 {
+    padding: clamp(0.4rem, 1vw, 0.6rem);
+}
+
+.auth-card #toggle-senha1 i, .auth-card #toggle-senha2 i {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+}
+
 .auth-card small {
     font-size: clamp(0.7rem, 1.6vw, 0.85rem);
 }
@@ -90,6 +98,14 @@
     .auth-card .form-control {
         font-size: 12px;
         padding: 6px 8px;
+    }
+
+    .auth-card #toggle-senha1, .auth-card #toggle-senha2 {
+        padding: 4px;
+    }
+
+    .auth-card #toggle-senha1 i, .auth-card #toggle-senha2 i {
+        font-size: 13px;
     }
 
     .auth-card small {
