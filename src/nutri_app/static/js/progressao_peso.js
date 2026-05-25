@@ -23,6 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
     
+    function formatarNumero(valor) {
+        return parseFloat(valor)
+        .toFixed(2)
+        .replace(/\.00$/, '')
+        .replace(/(\.\d)0$/, '$1');
+    }
+
     modalElement.addEventListener("shown.bs.modal", () => {
         erro.classList.add("d-none");
         erro.textContent = "";
@@ -142,12 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 "registro-peso"
             );
 
-            li.dataset.data = registro.data; 
-            li.dataset.peso = registro.peso;
+            li.dataset.data = (registro.data);
+            li.dataset.peso = formatarNumero(registro.peso);
 
             li.innerHTML = `
                 <span>${registro.data_formatada}</span>
-                <strong>${registro.peso.toFixed(1)} kg</strong>
+                <strong>${formatarNumero(registro.peso)} kg</strong>
             `;
 
             li.addEventListener("click", () => abrirModalEditar(li));
