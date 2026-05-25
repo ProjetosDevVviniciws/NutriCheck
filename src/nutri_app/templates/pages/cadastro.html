@@ -39,12 +39,30 @@
 
                     <div class="mb-3">
                         {{ form.senha1.label(class="form-label-custom") }}
-                        {{ form.senha1(class="form-control", placeholder="Informe sua senha") }}
+                        <div class="input-group">
+                            {{ form.senha1(
+                                class="form-control", 
+                                placeholder="Informe sua senha",
+                                id="senha-input1"
+                            ) }}
+                            <button class="btn btn-outline-secondary" type="button" id="toggle-senha1">
+                                <i class="fa-solid fa-eye" id="icone-senha1"></i>
+                            </button>
+                        </div>   
                     </div>
 
                     <div class="mb-3">
                         {{ form.senha2.label(class="form-label-custom") }}
-                        {{ form.senha2(class="form-control", placeholder="Confirme sua senha") }}
+                        <div class="input-group">
+                            {{ form.senha2(
+                                class="form-control", 
+                                placeholder="Confirme sua senha",
+                                id="senha-input2"
+                            ) }}
+                            <button class="btn btn-outline-secondary" type="button" id="toggle-senha2">
+                                <i class="fa-solid fa-eye" id="icone-senha2"></i>
+                            </button>
+                        </div>   
                     </div>
 
                     <div class="mb-3 text-center">
@@ -62,6 +80,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/d261c4bb4a.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
       lucide.createIcons();
