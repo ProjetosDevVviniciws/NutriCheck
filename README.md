@@ -195,6 +195,7 @@ CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
+    reset_token TEXT NULL,
     senha VARCHAR(255) NOT NULL,
     altura DECIMAL(5,2),
     peso DECIMAL(5,2),
