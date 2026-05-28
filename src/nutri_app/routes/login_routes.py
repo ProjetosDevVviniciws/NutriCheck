@@ -46,11 +46,23 @@ def recuperar_senha():
 
         if user:
             token = gerar_token(email)
+            with engine.begin() as conn:
+                conn.execute(text("""
+                    UPDATE usuarios
+                    SET 
+                        reset_token = :token,
+                        reset_token_usado = FALSE
+                    WHERE email = :email
+                """), {
+                    "token": token,
+                    "email": email
+                })
+                
             link = url_for("login.redefinir_senha", token=token, _external=True)
 
             enviar_email_reset(user["email"], link, user["nome"])
 
-        flash("Se o email existir, um link de recuperação foi enviado.", "info")
+        flash("Se o email existir, um link de recuperação será enviado.", "info")
         return redirect(url_for("login.login"))
 
     return render_template("pages/recuperar_senha.html", form=form)
