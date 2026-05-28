@@ -72,9 +72,34 @@ def redefinir_senha(token):
     email = validar_token(token)
 
     if not email:
-        flash("Token inválido ou expirado.", "danger")
+        flash("Token inválido ou expirado", "danger")
         return redirect(url_for("login.login"))
 
+    with engine.connect() as conn:
+
+        user = conn.execute(text("""
+            SELECT *
+            FROM usuarios
+            WHERE email = :email
+        """), {
+            "email": email
+        }).mappings().first()
+
+    if not user:
+        flash("Usuário não encontrado", "danger")
+        return redirect(url_for("login.login"))
+
+    if not user["reset_token"]:
+        flash(
+            "Este link de recuperação já foi utilizado",
+            "info"
+        )
+        return redirect(url_for("login.login"))
+
+    if user["reset_token"] != token:
+        flash("Link inválido", "danger")
+        return redirect(url_for("login.login"))
+    
     if form.validate_on_submit():
         nova_senha = form.senha.data
         senha_hash = gerar_hash(nova_senha)
@@ -82,7 +107,8 @@ def redefinir_senha(token):
         with engine.begin() as conn:
             conn.execute(text("""
                 UPDATE usuarios
-                SET senha = :senha
+                SET senha = :senha,
+                reset_token = NULL
                 WHERE email = :email
             """), {
                 "senha": senha_hash,
