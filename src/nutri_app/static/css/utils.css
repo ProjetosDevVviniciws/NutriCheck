@@ -19,6 +19,12 @@
     will-change: transform;
 }
 
+.footer-container {
+    background-color: #212529;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 .gradient-text {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 800;
