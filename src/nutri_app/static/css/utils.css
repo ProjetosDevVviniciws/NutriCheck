@@ -1,12 +1,22 @@
 /* Classes utilitárias */
 
 .hero-bg {
+    position: relative;
+    min-height: 100vh;
+    padding: clamp(60px, 10vh, 120px) 0;
+    overflow: hidden;
+}
+
+.hero-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
     background-image: url("/static/images/fundo.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
-    padding: clamp(60px, 10vh, 120px) 0;
+    z-index: -1;
+    will-change: transform;
 }
 
 .gradient-text {
