@@ -50,8 +50,7 @@ def recuperar_senha():
                 conn.execute(text("""
                     UPDATE usuarios
                     SET 
-                        reset_token = :token,
-                        reset_token_usado = FALSE
+                        reset_token = :token
                     WHERE email = :email
                 """), {
                     "token": token,
@@ -62,7 +61,7 @@ def recuperar_senha():
 
             enviar_email_reset(user["email"], link, user["nome"])
 
-        flash("Se o email existir, um link de recuperação será enviado.", "info")
+        flash("Se o email existir, um link de recuperação será enviado", "info")
         return redirect(url_for("login.login"))
 
     return render_template("pages/recuperar_senha.html", form=form)
