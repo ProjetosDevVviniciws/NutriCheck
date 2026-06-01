@@ -174,21 +174,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 tipoPorcaoInput.textContent = item.dataset.tipo_porcao || "g";
                 document.getElementById("porcaoEditar").value = formatarNumero(item.dataset.porcao);
 
-                macrosOriginaisEditar.calorias =
-                    (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
+                const porcaoOriginal = safeNumber(item.dataset.porcao);
 
-                macrosOriginaisEditar.proteinas =
-                    (safeNumber(item.dataset.proteinas) / safeNumber(item.dataset.porcao)) * 100;
+                if (porcaoOriginal <= 0) {
+                    macrosOriginaisEditar = {
+                        calorias: 0,
+                        proteinas: 0,
+                        carboidratos: 0,
+                        gorduras: 0
+                    };
 
-                macrosOriginaisEditar.carboidratos =
-                    (safeNumber(item.dataset.carboidratos) / safeNumber(item.dataset.porcao)) * 100;
+                    limparCamposMacros();
+                } else {
 
-                macrosOriginaisEditar.gorduras =
-                    (safeNumber(item.dataset.gorduras) / safeNumber(item.dataset.porcao)) * 100;
+                    macrosOriginaisEditar.calorias =
+                        (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
 
-                recalcularMacrosEditar(item.dataset.porcao);
+                    macrosOriginaisEditar.proteinas =
+                        (safeNumber(item.dataset.proteinas) / safeNumber(item.dataset.porcao)) * 100;
 
-                modalEditar.show();
+                    macrosOriginaisEditar.carboidratos =
+                        (safeNumber(item.dataset.carboidratos) / safeNumber(item.dataset.porcao)) * 100;
+
+                    macrosOriginaisEditar.gorduras =
+                        (safeNumber(item.dataset.gorduras) / safeNumber(item.dataset.porcao)) * 100;
+
+                    recalcularMacrosEditar(item.dataset.porcao);
+                }
+                    modalEditar.show();
             });
         });
     }
