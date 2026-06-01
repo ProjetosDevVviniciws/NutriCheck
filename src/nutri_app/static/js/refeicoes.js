@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
         gorduras: 0
     };
 
+    function limparCamposMacros() {
+        document.getElementById("caloriasEditar").value = "";
+        document.getElementById("proteinasEditar").value = "";
+        document.getElementById("carboidratosEditar").value = "";
+        document.getElementById("gordurasEditar").value = "";
+    }
+
     const atualizarDataDisplay = () => {
         if (dataSpan) {
             dataSpan.textContent = dataAtual.toLocaleDateString("pt-BR");
