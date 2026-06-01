@@ -171,6 +171,19 @@ def editar_refeicao(id):
     nova_porcao = data.get('porcao')
     novo_tipo_refeicao = data.get('tipo_refeicao')
 
+    try:
+        nova_porcao = float(nova_porcao)
+
+        if nova_porcao <= 0:
+            return jsonify({
+                "erro": "A porção deve ser maior que zero."
+            }), 400
+
+    except (TypeError, ValueError):
+        return jsonify({
+            "erro": "Porção inválida."
+        }), 400
+    
     with engine.begin() as conn:
         select_query = text("""
             SELECT 
