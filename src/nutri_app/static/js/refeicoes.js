@@ -69,23 +69,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function recalcularMacrosEditar(porcao) {
-    porcao = safeNumber(porcao);
+        porcao = safeNumber(porcao);
 
-    if (porcao > 0) {
-            document.getElementById("caloriasEditar").value =
-                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.calorias)} kcal`;
-
-            document.getElementById("proteinasEditar").value =
-                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.proteinas)} g`;
-
-            document.getElementById("carboidratosEditar").value =
-                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.carboidratos)} g`;
-
-            document.getElementById("gordurasEditar").value =
-                `${formatarNumero((porcao / 100) * macrosOriginaisEditar.gorduras)} g`;
+        if (porcao <= 0) {
+            limparCamposMacros();
+            return;
         }
-    }
+        
+        document.getElementById("caloriasEditar").value =
+            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.calorias)} kcal`;
 
+        document.getElementById("proteinasEditar").value =
+            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.proteinas)} g`;
+
+        document.getElementById("carboidratosEditar").value =
+            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.carboidratos)} g`;
+
+        document.getElementById("gordurasEditar").value =
+            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.gorduras)} g`;
+    }
+    
     function formatarNumero(valor) {
         return parseFloat(valor)
             .toFixed(2)
