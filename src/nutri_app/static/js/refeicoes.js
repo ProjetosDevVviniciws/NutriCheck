@@ -218,6 +218,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const porcao = document.getElementById("porcaoEditar").value;
         const tipo_refeicao = document.querySelector(`.refeicao-card .refeicao-item[data-id="${id}"]`)?.dataset.tipo;
 
+        if (!porcao || Number(porcao) <= 0) {
+            alert("Informe uma porção maior que zero.");
+            return;
+        }
+
         fetch(`/refeicoes-editar/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
