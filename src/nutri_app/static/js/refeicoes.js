@@ -193,7 +193,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btnSalvarRefeicao").addEventListener("click", () => {
         const id = document.getElementById("refeicaoId").value;
         const porcao = document.getElementById("porcaoEditar").value;
-        const tipo_porcao = document.getElementById("tipoPorcaoEditar").dataset.tipo_porcao;
         const tipo_refeicao = document.querySelector(`.refeicao-card .refeicao-item[data-id="${id}"]`)?.dataset.tipo;
 
         fetch(`/refeicoes-editar/${id}`, {
@@ -201,8 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 porcao: porcao,
-                tipo_refeicao: tipo_refeicao,
-                tipo_porcao: tipo_porcao
+                tipo_refeicao: tipo_refeicao
             })
         })
         .then(res => res.json())
