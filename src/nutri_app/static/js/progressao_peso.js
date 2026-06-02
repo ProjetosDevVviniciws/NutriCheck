@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const peso = inputPeso.value;
         const data = inputDataRegistro.value;
 
-        if (!peso || peso <= 0) {
+        if (!peso || peso <= 50 || peso > 300) {
             erro.textContent = "Informe um peso válido.";
             erro.classList.remove("d-none");
             return;
@@ -170,8 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
         focus: false
     });
 
-    const inputEditarPeso = modalEditarEl.querySelector("#input-peso");
-    const inputEditarData = modalEditarEl.querySelector("#input-data");
+    const inputEditarPeso = modalEditarEl.querySelector("#input-peso-editar");
+    const inputEditarData = modalEditarEl.querySelector("#input-data-editar");
     const erroEditar = modalEditarEl.querySelector("#erro-progressao");
 
     let dataRegistroSelecionado = null;
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const peso = inputEditarPeso.value;
         const data = inputEditarData.value;
 
-        if (!peso || peso <= 0) {
+        if (!peso || peso <= 50 || peso > 300) {
             erroEditar.textContent = "Informe um peso válido.";
             erroEditar.classList.remove("d-none");
             return;
