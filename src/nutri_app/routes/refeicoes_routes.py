@@ -24,6 +24,19 @@ def registrar_refeicao():
     if not alimento_id or not porcao or not tipo_refeicao:
         return jsonify({'erro': 'Dados incompletos'}), 400
     
+    try:
+        porcao = float(porcao)
+
+        if porcao <= 0:
+            return jsonify({
+                "erro": "A porção deve ser maior que zero."
+            }), 400
+
+    except (TypeError, ValueError):
+        return jsonify({
+            "erro": "Porção inválida."
+        }), 400
+    
     if data_refeicao:
         try:
             data_refeicao = datetime.strptime(data_refeicao, "%Y-%m-%d").date()
