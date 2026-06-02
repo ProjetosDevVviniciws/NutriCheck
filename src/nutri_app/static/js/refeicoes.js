@@ -284,6 +284,11 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        if (!porcao || Number(porcao) <= 0) {
+            alert("Informe uma porção maior que zero.");
+            return;
+        }
+
         fetch("/refeicoes-registrar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
