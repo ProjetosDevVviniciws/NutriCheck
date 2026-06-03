@@ -31,18 +31,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     modalElement.addEventListener("shown.bs.modal", () => {
-        erro.classList.add("d-none");
-        erro.textContent = "";
+        limparMensagemErro(erro);
     });
     
     modalElement.addEventListener("hidden.bs.modal", () => {
         inputPeso.value = '';
         calendarioRegistro.setDate("today", true);
+        limparMensagemErro(erro);
+        
     });
 
     btnRegistrar.addEventListener("click", async (e) => {
-        erro.classList.add("d-none");
-        erro.textContent = "";
+        limparMensagemErro(erro);
 
         const peso = inputPeso.value;
         const data = inputDataRegistro.value;
@@ -165,6 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     carregarRegistrosPeso();
 
+    function limparMensagemErro(elementoErro) {
+        elementoErro.classList.add("d-none");
+        elementoErro.textContent = "";
+    }
+
     const modalEditarEl = document.getElementById("modalEditarProgresso");
     const modalEditar = new bootstrap.Modal(modalEditarEl, {
         focus: false
@@ -191,13 +196,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     modalEditarEl.addEventListener("shown.bs.modal", () => {
-        erroEditar.classList.add("d-none");
-        erroEditar.textContent = "";
+        limparMensagemErro(erroEditar);
+    });
+
+    modalEditarEl.addEventListener("hidden.bs.modal", () => {
+        inputEditarPeso.value = "";
+        calendarioEditar.clear();
+        limparMensagemErro(erroEditar);
     });
 
     function abrirModalEditar(elemento) {
-        erroEditar.classList.add("d-none");
-        erroEditar.textContent = "";
+        limparMensagemErro(erroEditar);
 
         const peso = elemento.dataset.peso;
         const data = elemento.dataset.data;
@@ -211,8 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("btnSalvarProgresso").addEventListener("click", async () => {
-        erroEditar.classList.add("d-none");
-        erroEditar.textContent = "";
+        limparMensagemErro(erroEditar);
 
         const peso = inputEditarPeso.value;
         const data = inputEditarData.value;
