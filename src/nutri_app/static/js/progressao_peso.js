@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputDataRegistro = document.getElementById("input-data-registro");
     const inputDataEditar = document.getElementById("input-data-editar");
     const btnRegistrar = document.getElementById("btnRegistrarProgresso");
-    const erro = document.getElementById("erro-progressao");
+    const erro = document.getElementById("erro-progressao-registro");
 
     const calendarioRegistro = flatpickr("#input-data-registro", {
         locale: "pt",
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const inputEditarPeso = modalEditarEl.querySelector("#input-peso-editar");
     const inputEditarData = modalEditarEl.querySelector("#input-data-editar");
-    const erroEditar = modalEditarEl.querySelector("#erro-progressao");
+    const erroEditar = modalEditarEl.querySelector("#erro-progressao-editar");
 
     let dataRegistroSelecionado = null;
 
