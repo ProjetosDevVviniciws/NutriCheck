@@ -1,25 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const input = document.getElementById("input-agua");
     const btn = document.getElementById("btnRegistrarAgua");
-    const erro = document.getElementById("erro-agua");
+    const erro = document.getElementById("erro-agua-registro");
     const totalAgua = document.getElementById("total-agua");
     const seletorData = document.getElementById("seletor-data");
     const btnAnterior = document.getElementById("dia-anterior");
     const btnProximo = document.getElementById("proximo-dia");
     const btnCalendario = document.getElementById("abrir-calendario");
-
-    const modalEditarAguaEl = document.getElementById("modalEditarAgua");
-    const modalEditarAgua = modalEditarAguaEl
-        ? new bootstrap.Modal(modalEditarAguaEl)
-        : null;
-
-    const inputEditarAgua = document.getElementById("inputEditarAgua");
-    const erroEditarAgua = document.getElementById("erro-editar-agua");
-    const btnSalvarAgua = document.getElementById("btnSalvarAgua");
-    const btnRemoverAgua = document.getElementById("btnRemoverAgua");
-
-    const cardBodyAgua = document.querySelector(".agua-card-body");
 
     let dataAtual = new Date(seletorData.value || new Date());
 
@@ -81,6 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 
+    const modalEditarAguaEl = document.getElementById("modalEditarAgua");
+    const modalEditarAgua = modalEditarAguaEl
+        ? new bootstrap.Modal(modalEditarAguaEl)
+        : null;
+    const inputEditarAgua = document.getElementById("inputEditarAgua");
+    const erroEditarAgua = document.getElementById("erro-agua-editar");
+    const cardBodyAgua = document.querySelector(".agua-card-body");
+
     if (cardBodyAgua && modalEditarAgua) {
         cardBodyAgua.addEventListener("click", () => {
             const totalAtual = parseInt(
@@ -93,6 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
             modalEditarAgua.show();
         });
     }
+
+    const btnSalvarAgua = document.getElementById("btnSalvarAgua");
 
     if (btnSalvarAgua) {
         btnSalvarAgua.addEventListener("click", () => {
@@ -129,6 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    const btnRemoverAgua = document.getElementById("btnRemoverAgua");
 
     if (btnRemoverAgua && modalEditarAgua) {
         btnRemoverAgua.addEventListener("click", () => {
