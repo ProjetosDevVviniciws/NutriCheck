@@ -7,9 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAnterior = document.getElementById("dia-anterior");
     const btnProximo = document.getElementById("proximo-dia");
     const btnCalendario = document.getElementById("abrir-calendario");
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
 
-    let dataAtual = new Date(seletorData.value || new Date());
-
+    let dataAtual = new Date(seletorData.value || hoje);
+    
     function atualizarDataDisplay() {
         seletorData.value = dataAtual.toISOString().split("T")[0];
         window.dataSelecionada = seletorData.value;
