@@ -22,6 +22,16 @@ def home():
             WHERE id = :usuario_id 
         """), {"usuario_id": current_user.id}).mappings().first()
 
+        agua_consumida = conn.execute(text("""
+            SELECT quantidade_ml
+            FROM agua_registros
+            WHERE usuario_id = :id
+            AND data = :data
+        """), {
+            "id": current_user.id,
+            "data": hoje
+        }).scalar() or 0
+        
         totais_refeicoes = conn.execute(text("""
             SELECT
                 COALESCE(SUM(calorias), 0) AS calorias_consumidas,
@@ -67,5 +77,6 @@ def home():
         totais_dia=totais_dia,
         metas_dia=metas_dia,
         restantes_dia=restantes_dia,
+        agua_consumida=agua_consumida,
         current_date=hoje
     )
