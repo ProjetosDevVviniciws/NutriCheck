@@ -66,7 +66,7 @@ def registrar_agua():
     
 @agua_bp.route("/agua-total")
 @login_required
-def total_agua_por_data():
+def buscar_agua_total():
     data_str = request.args.get("data")
     
     if not data_str:
@@ -82,9 +82,9 @@ def total_agua_por_data():
             SELECT quantidade_ml 
             FROM agua_registros
             WHERE usuario_id = :id AND data = :data
-        """), {"id": current_user.id, "data": data}).scalar()
+        """), {"id": current_user.id, "data": data}).scalar() or 0
 
-    return jsonify({"total": total or 0})
+    return jsonify({"total": total})
 
 @agua_bp.route("/agua-editar", methods=["PUT"])
 @login_required
