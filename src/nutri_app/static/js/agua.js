@@ -1,14 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("input-agua");
+    const inputAgua = document.getElementById("input-agua");
+    const modalElement = document.getElementById("modalRegistrarAgua");
+    const modalRegistrar = new bootstrap.Modal(modalElement, {
+        focus: false
+    });
     const btn = document.getElementById("btnRegistrarAgua");
     const erro = document.getElementById("erro-agua-registro");
-    const totalAgua = document.getElementById("total-agua");
+    const inputAguaTotal = document.getElementById("total-agua");
     const seletorData = document.getElementById("seletor-data");
     const btnAnterior = document.getElementById("dia-anterior");
     const btnProximo = document.getElementById("proximo-dia");
     const btnCalendario = document.getElementById("abrir-calendario");
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
+
+    function limparMensagemErro(elementoErro) {
+        elementoErro.classList.add("d-none");
+        elementoErro.textContent = "";
+    }
+
+    modalElement.addEventListener("shown.bs.modal", () => {
+        limparMensagemErro(erro);
+    });
+    
+    modalElement.addEventListener("hidden.bs.modal", () => {
+        inputAgua.value = '';
+        limparMensagemErro(erro);
+        
+    });
 
     let dataAtual = new Date(seletorData.value || hoje);
     
@@ -17,16 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
         window.dataSelecionada = seletorData.value;
     }
 
+    function limparCampoAgua() {
+        document.getElementById("total-agua").value = "";
+    }
+
     function carregarTotalAgua() {
         const data = dataAtual.toISOString().split("T")[0];
         
         fetch(`/agua-total?data=${data}`)
             .then(res => res.json())
             .then(data => {
-                totalAgua.textContent = `${data.total} ml`;
+                inputAguaTotal.textContent = `${data.total} ml`;
             })
             .catch(() => {
-                totalAgua.textContent = "0 ml";
+                inputAguaTotal.textContent = "0 ml";
             });
     }
 
@@ -34,12 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarTotalAgua(window.dataSelecionada);
 
     btn.addEventListener("click", () => {
+        limparMensagemErro(erro);
 
-        const valor = Number(input.value.trim());
+        const valor = Number(inputAgua.value.trim());
         const dataSelecionada = window.dataSelecionada;
 
         if (!valor) return mostrarErro("Informe a quantidade de água.");
         if (valor < 50 || valor > 12000) return mostrarErro("Informe uma quantidade entre 50ml e 12000ml.");
+
+        limparCampoAgua();
 
         erro.classList.add("d-none");
 
@@ -55,12 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     mostrarErro(data.erro);
                     return;
                 }
+                
+                modalRegistrar.hide();
 
-                const modal = bootstrap.Modal.getInstance(document.getElementById("modalRegistrarAgua"));
-                modal.hide();
-
-                totalAgua.textContent = `${data.total} ml`;
-                input.value = "";
+                inputAguaTotal.textContent = `${data.total} ml`;
+                inputAgua.value = "";
 
                 alert(data.mensagem);
 
@@ -70,25 +95,37 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 
-    const modalEditarAguaEl = document.getElementById("modalEditarAgua");
-    const modalEditarAgua = modalEditarAguaEl
-        ? new bootstrap.Modal(modalEditarAguaEl)
+    const modalEditarEl = document.getElementById("modalEditarAgua");
+    const modalEditarAgua = modalEditarEl
+        ? new bootstrap.Modal(modalEditarEl)
         : null;
-    const inputEditarAgua = document.getElementById("inputEditarAgua");
+    const inputEditarAgua = document.getElementById("input-agua-editar");
     const erroEditarAgua = document.getElementById("erro-agua-editar");
     const cardBodyAgua = document.querySelector(".agua-card-body");
 
-    if (cardBodyAgua && modalEditarAgua) {
-        cardBodyAgua.addEventListener("click", () => {
-            const totalAtual = parseInt(
-                totalAgua.textContent.replace("ml", "").trim()
+    modalEditarEl.addEventListener("shown.bs.modal", () => {
+        limparMensagemErro(erroEditarAgua);
+    });
+
+    modalEditarEl.addEventListener("hidden.bs.modal", () => {
+        inputEditarAgua.value = "";
+        limparMensagemErro(erroEditarAgua);
+    });
+
+    function abrirModalEditar() {
+        limparMensagemErro(erroEditarAgua);
+        
+        const AguaTotal = parseInt(
+                inputAguaTotal.textContent.replace("ml", "").trim()
             ) || 0;
 
-            inputEditarAgua.value = totalAtual;
-            erroEditarAgua.classList.add("d-none");
+        inputEditarAgua.value = AguaTotal;
 
-            modalEditarAgua.show();
-        });
+        modalEditarAgua.show();
+    }
+
+    if (cardBodyAgua && modalEditarAgua) {
+        cardBodyAgua.addEventListener("click", abrirModalEditar);
     }
 
     const btnSalvarAgua = document.getElementById("btnSalvarAgua");
@@ -120,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                totalAgua.textContent = `${data.total} ml`;
+                inputAguaTotal.textContent = `${data.total} ml`;
                 modalEditarAgua.hide();
             })
             .catch(() => {
@@ -150,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                totalAgua.textContent = "0 ml";
+                inputAguaTotal.textContent = "0 ml";
                 modalEditarAgua.hide();
             })
             .catch(() => {
