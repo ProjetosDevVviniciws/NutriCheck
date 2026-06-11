@@ -1,29 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleSenha1 = document.getElementById("toggle-senha1");
-    const senhaInput1 = document.getElementById("senha-input1");
-    const iconeSenha1 = document.getElementById("icone-senha1");
+    function configurarToggleSenha(inputId, toggleId, iconeId) {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(toggleId);
+        const icone = document.getElementById(iconeId);
 
-    if (!toggleSenha1 || !senhaInput1 || !iconeSenha1) return;
+        if (!input || !toggle || !icone) return;
 
-    toggleSenha1.addEventListener("click", () => {
-        const isPassword = senhaInput1.type === "password";
+        toggle.addEventListener("click", () => {
+            const isPassword = input.type === "password";
 
-        senhaInput1.type = isPassword ? "text" : "password";
-        iconeSenha1.classList.toggle("fa-eye");
-        iconeSenha1.classList.toggle("fa-eye-slash");
-    }); 
+            input.type = isPassword ? "text" : "password";
+            icone.classList.toggle("fa-eye");
+            icone.classList.toggle("fa-eye-slash");
+        }); 
+    }
 
-    const toggleSenha2 = document.getElementById("toggle-senha2");
-    const senhaInput2 = document.getElementById("senha-input2");
-    const iconeSenha2 = document.getElementById("icone-senha2");
+    configurarToggleSenha(
+        "input-senha1",
+        "toggle-senha1",
+        "icone-senha1"
+    );
 
-    if (!toggleSenha2 || !senhaInput2 || !iconeSenha2) return;
-
-    toggleSenha2.addEventListener("click", () => {
-        const isPassword = senhaInput2.type === "password";
-
-        senhaInput2.type = isPassword ? "text" : "password";
-        iconeSenha2.classList.toggle("fa-eye");
-        iconeSenha2.classList.toggle("fa-eye-slash");
-    });
+    configurarToggleSenha(
+        "input-senha2",
+        "toggle-senha2",
+        "icone-senha2"
+    );
 });
