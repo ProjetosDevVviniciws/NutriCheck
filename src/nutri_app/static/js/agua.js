@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalRegistrar = new bootstrap.Modal(modalElement, {
         focus: false
     });
-    const btn = document.getElementById("btnRegistrarAgua");
+    const btnRegistrar = document.getElementById("btnRegistrarAgua");
     const erro = document.getElementById("erro-agua-registro");
-    const inputAguaTotal = document.getElementById("total-agua");
+    const aguaTotal = document.getElementById("agua-total");
     const seletorData = document.getElementById("seletor-data");
     const btnAnterior = document.getElementById("dia-anterior");
     const btnProximo = document.getElementById("proximo-dia");
@@ -36,27 +36,23 @@ document.addEventListener("DOMContentLoaded", () => {
         window.dataSelecionada = seletorData.value;
     }
 
-    function limparCampoAgua() {
-        document.getElementById("total-agua").value = "";
-    }
-
     function carregarTotalAgua() {
         const data = dataAtual.toISOString().split("T")[0];
         
         fetch(`/agua-total?data=${data}`)
             .then(res => res.json())
             .then(data => {
-                inputAguaTotal.textContent = `${data.total} ml`;
+                aguaTotal.textContent = `${data.total} ml`;
             })
             .catch(() => {
-                inputAguaTotal.textContent = "0 ml";
+                aguaTotal.textContent = "0 ml";
             });
     }
 
     window.dataSelecionada = seletorData.value;
     carregarTotalAgua(window.dataSelecionada);
 
-    btn.addEventListener("click", () => {
+    btnRegistrar.addEventListener("click", () => {
         limparMensagemErro(erro);
 
         const valor = Number(inputAgua.value.trim());
@@ -64,8 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!valor) return mostrarErro("Informe a quantidade de água.");
         if (valor < 50 || valor > 12000) return mostrarErro("Informe uma quantidade entre 50ml e 12000ml.");
-
-        limparCampoAgua();
 
         erro.classList.add("d-none");
 
@@ -84,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 modalRegistrar.hide();
 
-                inputAguaTotal.textContent = `${data.total} ml`;
+                aguaTotal.textContent = `${data.total} ml`;
                 inputAgua.value = "";
 
                 alert(data.mensagem);
@@ -115,11 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function abrirModalEditar() {
         limparMensagemErro(erroEditarAgua);
         
-        const AguaTotal = parseInt(
-                inputAguaTotal.textContent.replace("ml", "").trim()
+        const aguaTotal = parseInt(
+                aguaTotal.textContent.replace("ml", "").trim()
             ) || 0;
 
-        inputEditarAgua.value = AguaTotal;
+        inputEditarAgua.value = aguaTotal;
 
         modalEditarAgua.show();
     }
@@ -128,14 +122,14 @@ document.addEventListener("DOMContentLoaded", () => {
         cardBodyAgua.addEventListener("click", abrirModalEditar);
     }
 
-    const btnSalvarAgua = document.getElementById("btnSalvarAgua");
+    const btnSalvar = document.getElementById("btnSalvarAgua");
 
-    if (btnSalvarAgua) {
-        btnSalvarAgua.addEventListener("click", () => {
+    if (btnSalvar) {
+        btnSalvar.addEventListener("click", () => {
             const novaQuantidade = Number(inputEditarAgua.value);
             const dataSelecionada = window.dataSelecionada;
 
-            if (novaQuantidade < 0 || novaQuantidade > 12000) {
+            if (!novaQuantidade || novaQuantidade < 0 || novaQuantidade > 12000) {
                 erroEditarAgua.textContent =
                     "Informe um valor entre 0 e 12000 ml.";
                 erroEditarAgua.classList.remove("d-none");
@@ -157,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                inputAguaTotal.textContent = `${data.total} ml`;
+                aguaTotal.textContent = `${data.total} ml`;
                 modalEditarAgua.hide();
             })
             .catch(() => {
@@ -166,10 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const btnRemoverAgua = document.getElementById("btnRemoverAgua");
+    const btnRemover = document.getElementById("btnRemoverAgua");
 
-    if (btnRemoverAgua && modalEditarAgua) {
-        btnRemoverAgua.addEventListener("click", () => {
+    if (btnRemover && modalEditarAgua) {
+        btnRemover.addEventListener("click", () => {
 
             if (!confirm("Deseja remover todo o consumo de água deste dia?")) return;
 
@@ -187,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                inputAguaTotal.textContent = "0 ml";
+                aguaTotal.textContent = "0 ml";
                 modalEditarAgua.hide();
             })
             .catch(() => {
