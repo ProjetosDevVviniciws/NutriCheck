@@ -7,13 +7,13 @@
       <div class="modal-body">
         <form id="formAdicionarAlimento">
           <div class="mb-3">
-            <select id="buscaAlimento" class="form-control text-center" placeholder="Digite o nome do alimento..."></select>
+            <select id="busca-alimento" class="form-control text-center" placeholder="Digite o nome do alimento..."></select>
           </div>
 
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label-custom">Nome</label>
-              <input type="text" class="form-control text-center" id="nome" name="nome" readonly>
+              <input type="text" class="form-control text-center" id="input-nome" name="nome" readonly>
             </div>
             <div class="col-md-4">
               <label class="form-label-custom">Porção</label>
@@ -21,15 +21,14 @@
                 <input
                   type="number"
                   class="form-control text-center"
-                  id="porcao"
-                  name="porcao"
+                  id="input-porcao"
                   min="1"
                   step="0.01"
                   value="100"
                   required
                 >
 
-                <span class="input-group-text" id="unidadePorcao">
+                <span class="input-group-text" id="tipo-porcao">
                   g
                 </span>
               </div>
@@ -41,19 +40,19 @@
           <div class="row g-3">
             <div class="col-md-4">
               <label class="form-label-custom">Calorias</label>
-              <input type="text" class="form-control text-center" id="calorias" name="calorias" readonly>
+              <input type="text" class="form-control text-center" id="input-calorias" name="calorias" readonly>
             </div>
             <div class="col-md-4">
               <label class="form-label-custom">Proteínas</label>
-              <input type="text" class="form-control text-center" id="proteinas" name="proteinas" readonly>
+              <input type="text" class="form-control text-center" id="input-proteinas" name="proteinas" readonly>
             </div>
             <div class="col-md-4">
               <label class="form-label-custom">Carboidratos</label>
-              <input type="text" class="form-control text-center" id="carboidratos" name="carboidratos" readonly>
+              <input type="text" class="form-control text-center" id="input-carboidratos" name="carboidratos" readonly>
             </div>
             <div class="col-md-4">
               <label class="form-label-custom">Gorduras</label>
-              <input type="text" class="form-control text-center" id="gorduras" name="gorduras" readonly>
+              <input type="text" class="form-control text-center" id="input-gorduras" name="gorduras" readonly>
             </div>
           </div>
         </form>
