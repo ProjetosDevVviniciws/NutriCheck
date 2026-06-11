@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const nomeBuscaInput = document.getElementById('buscaAlimento');
-  const nomeInput = document.getElementById('nome');
-  const porcaoInput = document.querySelector('input[name="porcao"]');
-  const caloriasInput = document.getElementById('calorias');
-  const proteinasInput = document.getElementById('proteinas');
-  const carboidratosInput = document.getElementById('carboidratos');
-  const gordurasInput = document.getElementById('gorduras');
-  const tipoPorcaoInput = document.getElementById('unidadePorcao');
+  const modalAdicionarAlimento = document.getElementById("modalAdicionarAlimento");
+  const buscaAlimento = document.getElementById('busca-alimento');
+  const inputNome = document.getElementById('input-nome');
+  const inputPorcao = document.getElementById('input-porcao');
+  const inputCalorias = document.getElementById('input-calorias');
+  const inputProteinas = document.getElementById('input-proteinas');
+  const inputCarboidratos = document.getElementById('input-carboidratos');
+  const inputGorduras = document.getElementById('input-gorduras');
+  const tipoPorcao = document.getElementById('tipo-porcao');
 
-  let originalMacros = {
+  let macrosOriginais = {
     calorias: 0,
     proteinas: 0,
     carboidratos: 0,
@@ -20,18 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return isNaN(num) ? 0 : num;
   }
 
-  function recalcularMacros(porcao) {
-    porcao = safeNumber(porcao)
-    if (porcao > 0) {
-      caloriasInput.value = `${formatarNumero((porcao / 100) * originalMacros.calorias)} kcal`;
-      proteinasInput.value = `${formatarNumero((porcao / 100) * originalMacros.proteinas)} g`;
-      carboidratosInput.value = `${formatarNumero((porcao / 100) * originalMacros.carboidratos)} g`;
-      gordurasInput.value = `${formatarNumero((porcao / 100) * originalMacros.gorduras)} g`;
-    } else {
-      caloriasInput.value = proteinasInput.value = carboidratosInput.value = gordurasInput.value = '';
-    }
-  }
-
   function formatarNumero(valor) {
     return parseFloat(valor)
       .toFixed(2)
@@ -39,42 +28,52 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/(\.\d)0$/, '$1');
   }
 
+  function recalcularMacros(porcao) {
+    porcao = safeNumber(porcao)
+    if (porcao > 0) {
+      inputCalorias.value = `${formatarNumero((porcao / 100) * macrosOriginais.calorias)} kcal`;
+      inputProteinas.value = `${formatarNumero((porcao / 100) * macrosOriginais.proteinas)} g`;
+      inputCarboidratos.value = `${formatarNumero((porcao / 100) * macrosOriginais.carboidratos)} g`;
+      inputGorduras.value = `${formatarNumero((porcao / 100) * macrosOriginais.gorduras)} g`;
+    } else {
+      inputCalorias.value = inputProteinas.value = inputCarboidratos.value = inputGorduras.value = '';
+    }
+  }
+
   window.atualizarMacrosOriginais = function () {
-    originalMacros.calorias = safeNumber(caloriasInput.value) || 0;
-    originalMacros.proteinas = safeNumber(proteinasInput.value) || 0;
-    originalMacros.carboidratos = safeNumber(carboidratosInput.value) || 0;
-    originalMacros.gorduras = safeNumber(gordurasInput.value) || 0;
-    recalcularMacros(parseFloat(porcaoInput.value));
+    macrosOriginais.calorias = safeNumber(inputCalorias.value) || 0;
+    macrosOriginais.proteinas = safeNumber(inputProteinas.value) || 0;
+    macrosOriginais.carboidratos = safeNumber(inputCarboidratos.value) || 0;
+    macrosOriginais.gorduras = safeNumber(inputGorduras.value) || 0;
+    recalcularMacros(parseFloat(inputPorcao.value));
   };
 
-  porcaoInput.addEventListener('input', () => {
-    recalcularMacros(parseFloat(porcaoInput.value));
+  inputPorcao.addEventListener('input', () => {
+    recalcularMacros(parseFloat(inputPorcao.value));
   });
 
-  document.getElementById("modalAdicionarAlimento")
-    .addEventListener("hidden.bs.modal", () => {
+  modalAdicionarAlimento.addEventListener("hidden.bs.modal", () => {
+    document.getElementById("formAdicionarAlimento").reset();
+    
+    tomSelect.clear();
 
-      document.getElementById("formAdicionarAlimento").reset();
-      
-      tomSelect.clear();
+    inputNome.value = '';
+    inputCalorias.value = '';
+    inputProteinas.value = '';
+    inputCarboidratos.value = '';
+    inputGorduras.value = '';
 
-      nomeInput.value = '';
-      caloriasInput.value = '';
-      proteinasInput.value = '';
-      carboidratosInput.value = '';
-      gordurasInput.value = '';
+    tipoPorcao.textContent = 'g';
 
-      tipoPorcaoInput.textContent = 'g';
-
-      originalMacros = {
-        calorias: 0,
-        proteinas: 0,
-        carboidratos: 0,
-        gorduras: 0
-      };
+    macrosOriginais = {
+      calorias: 0,
+      proteinas: 0,
+      carboidratos: 0,
+      gorduras: 0
+    };
   });
 
-  const tomSelect = new TomSelect(nomeBuscaInput, {
+  const tomSelect = new TomSelect(buscaAlimento, {
     valueField: "id",
     labelField: "nome",
     searchField: "nome",
@@ -105,12 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const item = this.options[value];
       if (!item) return;
 
-      nomeInput.value = item.nome || '';
-      caloriasInput.value = `${formatarNumero(item.calorias || 0)} kcal`;
-      proteinasInput.value = `${formatarNumero(item.proteinas || 0)} g`;
-      carboidratosInput.value = `${formatarNumero(item.carboidratos || 0)} g`;
-      gordurasInput.value = `${formatarNumero(item.gorduras || 0)} g`;
-      tipoPorcaoInput.textContent = item.tipo_porcao || "g";
+      inputNome.value = item.nome || '';
+      inputCalorias.value = `${formatarNumero(item.calorias || 0)} kcal`;
+      inputProteinas.value = `${formatarNumero(item.proteinas || 0)} g`;
+      inputCarboidratos.value = `${formatarNumero(item.carboidratos || 0)} g`;
+      inputGorduras.value = `${formatarNumero(item.gorduras || 0)} g`;
+      tipoPorcao.textContent = item.tipo_porcao || "g";
       atualizarMacrosOriginais();
 
       if (window.setAlimentoSelecionado) {
