@@ -28,7 +28,7 @@ def create_app():
     from .routes.agua_routes import agua_bp
     from .routes.progressao_routes import progressao_bp
     from .utils.static_utils import static_versioned
-    from src.nutri_app.utils.calorias_macros import formatar_numero   
+    from nutri_app.utils.formatar_dados import formatar_numero   
     
     app.jinja_env.globals['static_versioned'] = static_versioned
     app.jinja_env.filters['formatar_numero'] = formatar_numero
