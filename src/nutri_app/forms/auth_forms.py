@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, Length, EqualTo, ValidationError
+from src.nutri_app.utils.validators import senha_forte
 from src.nutri_app.database import engine
 from sqlalchemy import text
 
@@ -20,7 +21,7 @@ class CadastroForm(FlaskForm):
     
     nome = StringField(label='Nome', validators=[Length(min=2, max=30), DataRequired()])
     email = StringField(label='Email', validators=[Email(), DataRequired()])
-    senha1 = PasswordField(label='Senha', validators=[Length(min=6), DataRequired()])
+    senha1 = PasswordField(label='Senha', validators=[Length(min=6), DataRequired(), senha_forte])
     senha2 = PasswordField(label='Confirmação da Senha', validators=[EqualTo('senha1', message='As senhas informadas não coincidem'), DataRequired()])
     submit = SubmitField(label='Cadastrar')
     
