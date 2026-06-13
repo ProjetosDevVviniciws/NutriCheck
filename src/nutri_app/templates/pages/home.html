@@ -36,17 +36,17 @@
                 </div>
                 <div class="row mb-5">
                     <h4 class="col-md-3 mb-3 mb-md-5">Totais</h4>
-                    <div class="fw-semibold col-6 col-md-2"><p id="totais-calorias" class="text-primary">{{ totais_dia.calorias_consumidas | formatar_numero }} kcal</p></div>
-                    <div class="fw-semibold col-6 col-md-2"><p id="totais-proteinas" class="text-success">{{ totais_dia.proteinas_consumidas | formatar_numero }} g</p></div>
-                    <div class="fw-semibold col-6 col-md-2"><p id="totais-carboidratos" class="text-warning">{{ totais_dia.carboidratos_consumidos | formatar_numero }} g</p></div>
-                    <div class="fw-semibold col-6 col-md-2"><p id="totais-gorduras" class="text-danger">{{ totais_dia.gorduras_consumidas | formatar_numero }} g</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="calorias-totais" class="text-primary">{{ totais_dia.calorias_consumidas | formatar_numero }} kcal</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="proteinas-totais" class="text-success">{{ totais_dia.proteinas_consumidas | formatar_numero }} g</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="carboidratos-totais" class="text-warning">{{ totais_dia.carboidratos_consumidos | formatar_numero }} g</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="gorduras-totais" class="text-danger">{{ totais_dia.gorduras_consumidas | formatar_numero }} g</p></div>
                 </div>
                 <div class="row mb-5">
                     <h4 class="col-md-3 mb-3 mb-md-5">Restantes</h4>
-                    <div class="fw-semibold col-6 col-md-2"><p id="restantes-calorias" class="text-primary">{{ restantes_dia.calorias_restantes | formatar_numero }} kcal</p></div>
-                    <div class="fw-semibold col-6 col-md-2"><p id="restantes-proteinas" class="text-success">{{ restantes_dia.proteinas_restantes | formatar_numero }} g</p></div>
-                    <div class="fw-semibold col-6 col-md-2"><p id="restantes-carboidratos" class="text-warning">{{ restantes_dia.carboidratos_restantes | formatar_numero }} g</p></div>
-                    <div class="fw-semibold col-6 col-md-2"><p id="restantes-gorduras" class="text-danger">{{ restantes_dia.gorduras_restantes | formatar_numero }} g</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="calorias-restantes" class="text-primary">{{ restantes_dia.calorias_restantes | formatar_numero }} kcal</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="proteinas-restantes" class="text-success">{{ restantes_dia.proteinas_restantes | formatar_numero }} g</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="carboidratos-restantes" class="text-warning">{{ restantes_dia.carboidratos_restantes | formatar_numero }} g</p></div>
+                    <div class="fw-semibold col-6 col-md-2"><p id="gorduras-restantes" class="text-danger">{{ restantes_dia.gorduras_restantes | formatar_numero }} g</p></div>
                 </div>
                 {% include 'includes/refeicoes.html' %}
             </div>
