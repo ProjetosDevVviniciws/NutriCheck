@@ -1,17 +1,42 @@
-def calcular_tmb_macros(peso: float, altura: float, idade: int, sexo: str = "masculino") -> dict:
-    if sexo.lower() == "feminino":
-        tmb = 10 * peso + 6.25 * altura - 5 * idade - 161
-    else:
-        tmb = 10 * peso + 6.25 * altura - 5 * idade + 5
-        
-    calorias = tmb * 1.55 
-    proteinas = peso * 2.2
-    gorduras = peso * 1.0
-    carboidratos = (calorias - (proteinas * 4 + gorduras * 9)) / 4
-    
+from sqlalchemy import text
+
+def calcular_macros_totais(conn, usuario_id, data_refeicao):
+    q = text("""
+        SELECT
+            COALESCE(SUM(calorias), 0) AS calorias_consumidas,
+            COALESCE(SUM(proteinas), 0) AS proteinas_consumidas,
+            COALESCE(SUM(carboidratos), 0) AS carboidratos_consumidos,
+            COALESCE(SUM(gorduras), 0) AS gorduras_consumidas
+        FROM refeicoes
+        WHERE usuario_id = :usuario_id AND DATE(data) = :data_refeicao
+    """)
+    r = conn.execute(q, {"usuario_id": usuario_id, "data_refeicao": str(data_refeicao)}).mappings().first()
     return {
-        "calorias": round(calorias, 2),
-        "proteinas": round(proteinas, 2),
-        "gorduras": round(gorduras, 2),
-        "carboidratos": round(carboidratos, 2)
+        "calorias_consumidas": float(r["calorias_consumidas"] or 0),
+        "proteinas_consumidas": float(r["proteinas_consumidas"] or 0),
+        "carboidratos_consumidos": float(r["carboidratos_consumidos"] or 0),
+        "gorduras_consumidas": float(r["gorduras_consumidas"] or 0),
+    }
+    
+def buscar_meta_macros(conn, usuario_id):
+    r = conn.execute(text("""
+        SELECT calorias_meta, proteinas_meta, carboidratos_meta, gorduras_meta
+        FROM usuarios
+        WHERE id = :usuario_id
+    """), {"usuario_id": usuario_id}).mappings().first()
+    if not r:
+        return {"calorias_meta": 0, "proteinas_meta": 0, "carboidratos_meta": 0, "gorduras_meta": 0}
+    return {
+        "calorias_meta": float(r["calorias_meta"] or 0),
+        "proteinas_meta": float(r["proteinas_meta"] or 0),
+        "carboidratos_meta": float(r["carboidratos_meta"] or 0),
+        "gorduras_meta": float(r["gorduras_meta"] or 0),
+    }
+    
+def calcular_macros_restantes(metas, totais):
+    return {
+        "calorias_restantes": round(float(metas["calorias_meta"]) - float(totais["calorias_consumidas"]), 2),
+        "proteinas_restantes": round(float(metas["proteinas_meta"]) - float(totais["proteinas_consumidas"]), 2),
+        "carboidratos_restantes": round(float(metas["carboidratos_meta"]) - float(totais["carboidratos_consumidos"]), 2),
+        "gorduras_restantes": round(float(metas["gorduras_meta"]) - float(totais["gorduras_consumidas"]), 2),
     }
