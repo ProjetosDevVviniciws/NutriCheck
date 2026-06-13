@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const tipoHidden = document.getElementById("tipo-refeicao-hidden");
     const modalEditar = new bootstrap.Modal(document.getElementById("modalEditarRefeicao"));
-    const tipoPorcaoInput = document.getElementById('tipoPorcao');
     const dataSpan = document.getElementById("data-selecionada");
     const seletorData = document.getElementById("seletor-data");
     const btnAnterior = document.getElementById("dia-anterior");
@@ -32,18 +31,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let dataAtual = new Date(hoje);
     let alimentoSelecionado = null;
 
-    let macrosOriginaisEditar = {
+    let editarMacrosOriginais = {
         calorias: 0,
         proteinas: 0,
         carboidratos: 0,
         gorduras: 0
     };
 
-    function limparCamposMacros() {
-        document.getElementById("caloriasEditar").value = "";
-        document.getElementById("proteinasEditar").value = "";
-        document.getElementById("carboidratosEditar").value = "";
-        document.getElementById("gordurasEditar").value = "";
+    function limparMacros() {
+        document.getElementById("editarCalorias").value = "";
+        document.getElementById("editarProteinas").value = "";
+        document.getElementById("editarCarboidratos").value = "";
+        document.getElementById("editarGorduras").value = "";
     }
 
     const atualizarDataDisplay = () => {
@@ -72,21 +71,21 @@ document.addEventListener("DOMContentLoaded", function () {
         porcao = safeNumber(porcao);
 
         if (porcao <= 0) {
-            limparCamposMacros();
+            limparMacros();
             return;
         }
         
-        document.getElementById("caloriasEditar").value =
-            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.calorias)} kcal`;
+        document.getElementById("editarCalorias").value =
+            `${formatarNumero((porcao / 100) * editarMacrosOriginais.calorias)} kcal`;
 
-        document.getElementById("proteinasEditar").value =
-            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.proteinas)} g`;
+        document.getElementById("editarProteinas").value =
+            `${formatarNumero((porcao / 100) * editarMacrosOriginais.proteinas)} g`;
 
-        document.getElementById("carboidratosEditar").value =
-            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.carboidratos)} g`;
+        document.getElementById("editarCarboidratos").value =
+            `${formatarNumero((porcao / 100) * editarMacrosOriginais.carboidratos)} g`;
 
-        document.getElementById("gordurasEditar").value =
-            `${formatarNumero((porcao / 100) * macrosOriginaisEditar.gorduras)} g`;
+        document.getElementById("editarGorduras").value =
+            `${formatarNumero((porcao / 100) * editarMacrosOriginais.gorduras)} g`;
     }
     
     function formatarNumero(valor) {
@@ -96,28 +95,74 @@ document.addEventListener("DOMContentLoaded", function () {
             .replace(/(\.\d)0$/, '$1');
     }
 
-    function atualizarMetas(metas) {
-        if (!metas) return;
-        document.querySelector("#meta-calorias").textContent = `${formatarNumero(metas.calorias_meta)} kcal`;
-        document.querySelector("#meta-proteinas").textContent = `${formatarNumero(metas.proteinas_meta)} g`;
-        document.querySelector("#meta-carboidratos").textContent = `${formatarNumero(metas.carboidratos_meta)} g`;
-        document.querySelector("#meta-gorduras").textContent = `${formatarNumero(metas.gorduras_meta)} g`;
-    }
+    function atualizarMacros(tipo, dados) {
+        if (!dados) return;
 
-    function atualizarTotais(totais) {
-        if (!totais) return;
-        document.querySelector("#totais-calorias").textContent = `${formatarNumero(totais.calorias_consumidas)} kcal`;
-        document.querySelector("#totais-proteinas").textContent = `${formatarNumero(totais.proteinas_consumidas)} g`;
-        document.querySelector("#totais-carboidratos").textContent = `${formatarNumero(totais.carboidratos_consumidos)} g`;
-        document.querySelector("#totais-gorduras").textContent = `${formatarNumero(totais.gorduras_consumidas)} g`;
-    }
+        const campos = {
+            meta: {
+                ids: {
+                    calorias: "#meta-calorias",
+                    proteinas: "#meta-proteinas",
+                    carboidratos: "#meta-carboidratos",
+                    gorduras: "#meta-gorduras"
+                },
 
-    function atualizarRestantes(restantes) {
-        if (!restantes) return;
-        document.querySelector("#restantes-calorias").textContent = `${formatarNumero(restantes.calorias_restantes)} kcal`;
-        document.querySelector("#restantes-proteinas").textContent = `${formatarNumero(restantes.proteinas_restantes)} g`;
-        document.querySelector("#restantes-carboidratos").textContent = `${formatarNumero(restantes.carboidratos_restantes)} g`;
-        document.querySelector("#restantes-gorduras").textContent = `${formatarNumero(restantes.gorduras_restantes)} g`;
+                valores: {
+                    calorias: "calorias_meta",
+                    proteinas: "proteinas_meta",
+                    carboidratos: "carboidratos_meta",
+                    gorduras: "gorduras_meta"
+                }
+            },
+
+            totais: {
+                ids: {
+                    calorias: "#calorias-totais",
+                    proteinas: "#proteinas-totais",
+                    carboidratos: "#carboidratos-totais",
+                    gorduras: "#gorduras-totais"
+                },
+
+                valores: {
+                    calorias: "calorias_consumidas",
+                    proteinas: "proteinas_consumidas",
+                    carboidratos: "carboidratos_consumidos",
+                    gorduras: "gorduras_consumidas"
+                }
+            },
+
+            restantes: {
+                ids: {
+                    calorias: "#calorias-restantes",
+                    proteinas: "#proteinas-restantes",
+                    carboidratos: "#carboidratos-restantes",
+                    gorduras: "#gorduras-restantes"
+                },
+
+                valores: {
+                    calorias: "calorias_restantes",
+                    proteinas: "proteinas_restantes",
+                    carboidratos: "carboidratos_restantes",
+                    gorduras: "gorduras_restantes"
+                }
+            }
+        };
+
+        const config = campos[tipo];
+
+        if (!config) return;
+
+        document.querySelector(config.ids.calorias).textContent =
+            `${formatarNumero(dados[`${config.valores.calorias}`])} kcal`;
+
+        document.querySelector(config.ids.proteinas).textContent =
+            `${formatarNumero(dados[`${config.valores.proteinas}`])} g`;
+
+        document.querySelector(config.ids.carboidratos).textContent =
+            `${formatarNumero(dados[`${config.valores.carboidratos}`])} g`;
+
+        document.querySelector(config.ids.gorduras).textContent =
+            `${formatarNumero(dados[`${config.valores.gorduras}`])} g`;
     }
 
     function carregarRefeicoes() {
@@ -162,9 +207,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 }
 
-                atualizarTotais(totais);
-                atualizarRestantes(restantes);
-                atualizarMetas(metas);
+                atualizarMacros("totais", totais);
+                atualizarMacros("restantes", restantes);
+                atualizarMacros("metas", metas);
             })
             .catch(err => console.error("Erro ao carregar refeições:", err));
     }
@@ -173,33 +218,33 @@ document.addEventListener("DOMContentLoaded", function () {
         lista.querySelectorAll(".refeicao-item").forEach(item => {
             item.addEventListener("click", () => {
                 document.getElementById("refeicaoId").value = item.dataset.id;
-                document.getElementById("nomeEditar").value = item.dataset.nome;
-                tipoPorcaoInput.textContent = item.dataset.tipo_porcao || "g";
-                document.getElementById("porcaoEditar").value = formatarNumero(item.dataset.porcao);
+                document.getElementById("input-nome-editar").value = item.dataset.nome;
+                document.getElementById("input-tipo-porcao-editar").textContent = item.dataset.tipo_porcao || "g";
+                document.getElementById("input-porcao-editar").value = formatarNumero(item.dataset.porcao);
 
                 const porcaoOriginal = safeNumber(item.dataset.porcao);
 
                 if (porcaoOriginal <= 0) {
-                    macrosOriginaisEditar = {
+                    editarMacrosOriginais = {
                         calorias: 0,
                         proteinas: 0,
                         carboidratos: 0,
                         gorduras: 0
                     };
 
-                    limparCamposMacros();
+                    limparMacros();
                 } else {
 
-                    macrosOriginaisEditar.calorias =
+                    editarMacrosOriginais.calorias =
                         (safeNumber(item.dataset.calorias) / safeNumber(item.dataset.porcao)) * 100;
 
-                    macrosOriginaisEditar.proteinas =
+                    editarMacrosOriginais.proteinas =
                         (safeNumber(item.dataset.proteinas) / safeNumber(item.dataset.porcao)) * 100;
 
-                    macrosOriginaisEditar.carboidratos =
+                    editarMacrosOriginais.carboidratos =
                         (safeNumber(item.dataset.carboidratos) / safeNumber(item.dataset.porcao)) * 100;
 
-                    macrosOriginaisEditar.gorduras =
+                    editarMacrosOriginais.gorduras =
                         (safeNumber(item.dataset.gorduras) / safeNumber(item.dataset.porcao)) * 100;
 
                     recalcularMacrosEditar(item.dataset.porcao);
@@ -209,16 +254,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    document.getElementById("porcaoEditar").addEventListener("input", (e) => {
+    document.getElementById("input-porcao-editar").addEventListener("input", (e) => {
         recalcularMacrosEditar(e.target.value);
     });
 
     document.getElementById("btnSalvarRefeicao").addEventListener("click", () => {
         const id = document.getElementById("refeicaoId").value;
-        const porcao = document.getElementById("porcaoEditar").value;
+        const inputPorcaoEditar = document.getElementById("input-porcao-editar").value;
         const tipo_refeicao = document.querySelector(`.refeicao-card .refeicao-item[data-id="${id}"]`)?.dataset.tipo;
 
-        if (!porcao || Number(porcao) <= 0) {
+        if (!inputPorcaoEditar || Number(inputPorcaoEditar) <= 0) {
             alert("Informe uma porção maior que zero.");
             return;
         }
@@ -227,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                porcao: porcao,
+                porcao: inputPorcaoEditar,
                 tipo_refeicao: tipo_refeicao
             })
         })
@@ -238,8 +283,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 modalEditar.hide();
                 carregarRefeicoes();
-                atualizarTotais(data.totais);
-                atualizarRestantes(data.restantes);
+                atualizarMacros("totais", data.totais);
+                atualizarMacros("restantes", data.restantes);
             }
         })
         .catch(err => console.error("Erro ao editar refeição:", err));
@@ -260,8 +305,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 modalEditar.hide();
                 carregarRefeicoes();
-                atualizarTotais(data.totais);
-                atualizarRestantes(data.restantes);
+                atualizarMacros("totais", data.totais);
+                atualizarMacros("restantes", data.restantes);
             }
         })
         .catch(err => console.error("Erro ao remover refeição:", err));
@@ -275,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("btnAdicionarAlimento").addEventListener("click", () => {
-        const porcao = document.getElementById("porcao").value;
+        const porcao = document.getElementById("input-porcao").value;
         const tipo_refeicao = tipoHidden.value;
         const dataSelecionada = window.dataSelecionada || formatarDataLocal(new Date());
 
@@ -307,8 +352,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 bootstrap.Modal.getInstance(document.getElementById("modalAdicionarAlimento")).hide();
                 carregarRefeicoes();
-                atualizarTotais(data.totais);
-                atualizarRestantes(data.restantes);
+                atualizarMacros("totais", data.totais);
+                atualizarMacros("restantes", data.restantes);
             }
         })
         .catch(err => console.error("Erro ao adicionar refeição:", err));
