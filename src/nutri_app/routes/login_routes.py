@@ -63,6 +63,9 @@ def recuperar_senha():
 
         flash("Se o email existir, um link de recuperação será enviado", "info")
         return redirect(url_for("login.login"))
+    
+    if form.errors:
+        flash(form.email.errors[0], "danger")
 
     return render_template("pages/recuperar_senha.html", form=form)
 
