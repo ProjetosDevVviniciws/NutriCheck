@@ -3,7 +3,7 @@ from src.nutri_app.database import engine
 from sqlalchemy import text
 from flask_login import login_required, current_user
 from nutri_app.utils.calcular_tmb import calcular_tmb_macros
-from src.nutri_app.utils.validators import validar_nova_senha
+from nutri_app.utils.validar_senhas import validar_nova_senha
 from src.nutri_app.utils.hash import gerar_hash
 from datetime import date
 import re
