@@ -46,13 +46,13 @@
                         </div>   
                     </div>
                     <div class="text-center mb-3 esqueci-senha">
-                        <a href="{{ url_for('login.recuperar_senha') }}" class="text-decoration-none small">
+                        <a href="{{ url_for('recuperar_senha.recuperar_senha') }}" class="text-decoration-none small">
                             Esqueci a senha
                         </a>
                     </div>
                     <div class="mb-3 text-center">
                         <small class="text-muted-custom">Não possui cadastro?</small><br>
-                        <a class="btn btn-ouline-custom mt-2" href="{{ url_for('auth.cadastro') }}">Cadastre-se</a>
+                        <a class="btn btn-ouline-custom mt-2" href="{{ url_for('cadastro.cadastro') }}">Cadastre-se</a>
                     </div>
                     <div class="d-grid">
                         {{ form.submit(class="btn btn-primary btn-lg") }}
