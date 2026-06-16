@@ -32,7 +32,7 @@ def recuperar_senha():
                     "email": email
                 })
                 
-            link = url_for("login.redefinir_senha", token=token, _external=True)
+            link = url_for("redefinir_senha.redefinir_senha", token=token, _external=True)
 
             enviar_email_reset(user["email"], link, user["nome"])
 
@@ -41,6 +41,6 @@ def recuperar_senha():
     
     if request.method == "POST" and form.errors:
         flash(form.email.errors[0], "danger")
-        return redirect(url_for("login.recuperar_senha"))
+        return redirect(url_for("recuperar_senha.recuperar_senha"))
 
     return render_template("pages/recuperar_senha.html", form=form)
