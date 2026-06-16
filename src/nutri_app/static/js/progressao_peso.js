@@ -3,9 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalRegistrar = new bootstrap.Modal(modalElement, {
         focus: false
     });
-    const inputPeso = document.getElementById("input-peso");
+    const inputPesoRegistro = document.getElementById("input-peso");
     const inputDataRegistro = document.getElementById("input-data-registro");
-    const inputDataEditar = document.getElementById("input-data-editar");
     const btnRegistrar = document.getElementById("btnRegistrarProgresso");
     const erro = document.getElementById("erro-progressao-registro");
 
@@ -35,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     modalElement.addEventListener("hidden.bs.modal", () => {
-        inputPeso.value = '';
+        inputPesoRegistro.value = '';
         calendarioRegistro.setDate("today", true);
         limparMensagemErro(erro);
         
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnRegistrar.addEventListener("click", async (e) => {
         limparMensagemErro(erro);
 
-        const peso = inputPeso.value;
+        const peso = inputPesoRegistro.value;
         const data = inputDataRegistro.value;
 
         if (!peso || peso <= 50 || peso > 300) {
@@ -175,8 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
         focus: false
     });
 
-    const inputEditarPeso = modalEditarEl.querySelector("#input-peso-editar");
-    const inputEditarData = modalEditarEl.querySelector("#input-data-editar");
+    const inputPesoEditar = modalEditarEl.querySelector("#input-peso-editar");
+    const inputDataEditar = modalEditarEl.querySelector("#input-data-editar");
     const erroEditar = modalEditarEl.querySelector("#erro-progressao-editar");
 
     let dataRegistroSelecionado = null;
@@ -200,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     modalEditarEl.addEventListener("hidden.bs.modal", () => {
-        inputEditarPeso.value = "";
+        inputPesoEditar.value = "";
         calendarioEditar.clear();
         limparMensagemErro(erroEditar);
     });
@@ -213,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dataRegistroSelecionado = data;
 
-        inputEditarPeso.value = peso;
+        inputPesoEditar.value = peso;
         calendarioEditar.setDate(data, true);
 
         modalEditar.show();
@@ -222,8 +221,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnSalvarProgresso").addEventListener("click", async () => {
         limparMensagemErro(erroEditar);
 
-        const peso = inputEditarPeso.value;
-        const data = inputEditarData.value;
+        const peso = inputPesoEditar.value;
+        const data = inputDataEditar.value;
 
         if (!peso || peso <= 50 || peso > 300) {
             erroEditar.textContent = "Informe um peso válido.";
