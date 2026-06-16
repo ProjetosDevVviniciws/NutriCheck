@@ -63,6 +63,6 @@ def redefinir_senha(token):
         for errors in form.errors.values():
             for err in errors:
                 flash(f"Erro ao atualizar senha: {err}", category="danger")
-            return redirect(url_for("login.redefinir_senha", token=token))
+            return redirect(url_for("redefinir_senha.redefinir_senha", token=token))
     
     return render_template("pages/redefinir_senha.html", form=form)
