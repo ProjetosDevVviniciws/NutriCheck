@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, Length, EqualTo, ValidationError
-from src.nutri_app.utils.validators import validar_senha
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from nutri_app.utils.validar_senhas import validar_senha, validar_nova_senha
 from src.nutri_app.database import engine
 from sqlalchemy import text
 
@@ -21,7 +21,7 @@ class CadastroForm(FlaskForm):
     
     nome = StringField(label='Nome', validators=[Length(min=2, max=30), DataRequired(message='O nome é obrigatório')])
     email = StringField(label='Email', validators=[Email('Informe um endereço de e-mail válido'), DataRequired(message='O e-mail é obrigatório')])
-    senha1 = PasswordField(label='Senha', validators=[Length(min=6), DataRequired(message='A senha é obrigatória'), validar_senha])
+    senha1 = PasswordField(label='Senha', validators=[DataRequired(message='A senha é obrigatória'), validar_senha])
     senha2 = PasswordField(label='Confirmação da Senha', validators=[EqualTo('senha1', message='As senhas informadas não coincidem'), DataRequired(message='A confirmação da senha é obrigatória')])
     submit = SubmitField(label='Cadastrar')
     
@@ -35,5 +35,5 @@ class RecuperarSenhaForm(FlaskForm):
     submit = SubmitField(label='Enviar Token')
     
 class RedefinirSenhaForm(FlaskForm):
-    senha = PasswordField(label='Nova Senha', validators=[Length(min=6), DataRequired()])
+    senha = PasswordField(label='Nova Senha', validators=[DataRequired(message='A nova senha é obrigatória'), validar_nova_senha])
     submit = SubmitField(label='Atualizar Senha')
