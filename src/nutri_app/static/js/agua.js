@@ -94,20 +94,20 @@ document.addEventListener("DOMContentLoaded", () => {
         ? new bootstrap.Modal(modalEditarEl)
         : null;
     const inputEditarAgua = document.getElementById("input-agua-editar");
-    const erroEditarAgua = document.getElementById("erro-agua-editar");
+    const erroEditar = document.getElementById("erro-agua-editar");
     const cardBodyAgua = document.querySelector(".agua-card-body");
 
     modalEditarEl.addEventListener("shown.bs.modal", () => {
-        limparMensagemErro(erroEditarAgua);
+        limparMensagemErro(erroEditar);
     });
 
     modalEditarEl.addEventListener("hidden.bs.modal", () => {
         inputEditarAgua.value = "";
-        limparMensagemErro(erroEditarAgua);
+        limparMensagemErro(erroEditar);
     });
 
     function abrirModalEditar() {
-        limparMensagemErro(erroEditarAgua);
+        limparMensagemErro(erroEditar);
         
         const aguaConsumida = parseInt(
                 aguaTotal.textContent.replace("ml", "").trim()
@@ -130,9 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const dataSelecionada = window.dataSelecionada;
 
             if (!novaQuantidade || novaQuantidade < 0 || novaQuantidade > 12000) {
-                erroEditarAgua.textContent =
+                erroEditar.textContent =
                     "Informe um valor entre 0 e 12000 ml.";
-                erroEditarAgua.classList.remove("d-none");
+                erroEditar.classList.remove("d-none");
                 return;
             }
 
