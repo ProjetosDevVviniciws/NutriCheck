@@ -109,11 +109,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function abrirModalEditar() {
         limparMensagemErro(erroEditarAgua);
         
-        const aguaTotal = parseInt(
+        const aguaConsumida = parseInt(
                 aguaTotal.textContent.replace("ml", "").trim()
             ) || 0;
 
-        inputEditarAgua.value = aguaTotal;
+        inputEditarAgua.value = aguaConsumida;
 
         modalEditarAgua.show();
     }
