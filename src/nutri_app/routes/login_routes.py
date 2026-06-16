@@ -9,6 +9,7 @@ from src.nutri_app.utils.email_service import enviar_email_reset
 from src.nutri_app.utils.hash import gerar_hash
 from sqlalchemy import text
 from flask_login import login_user
+from flask import request
 
 login_bp = Blueprint('login', __name__)
 
@@ -31,6 +32,8 @@ def login():
                 return redirect(url_for('home.home'))
             else:
                 flash("Nome ou senha estão incorretos! Tente novamente", category="danger")
+                return redirect(url_for('login.login'))
+                
     return render_template("pages/login.html", form=forms)
 
 @login_bp.route("/recuperar-senha", methods=["GET", "POST"])
@@ -64,8 +67,9 @@ def recuperar_senha():
         flash("Se o email existir, um link de recuperação será enviado", "info")
         return redirect(url_for("login.login"))
     
-    if form.errors:
+    if request.method == "POST" and form.errors:
         flash(form.email.errors[0], "danger")
+        return redirect(url_for("login.recuperar_senha"))
 
     return render_template("pages/recuperar_senha.html", form=form)
 
@@ -121,4 +125,10 @@ def redefinir_senha(token):
         flash("Senha atualizada com sucesso!", "info")
         return redirect(url_for("login.login"))
 
+    if form.errors != {}:
+        for errors in form.errors.values():
+            for err in errors:
+                flash(f"Erro ao atualizar senha: {err}", category="danger")
+            return redirect(url_for("login.redefinir_senha", token=token))
+    
     return render_template("pages/redefinir_senha.html", form=form)
