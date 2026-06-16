@@ -20,7 +20,10 @@ def create_app():
     login_manager.login_message_category = 'info'
     
     from .routes.login_routes import login_bp
-    from .routes.auth_routes import auth_bp
+    from .routes.cadastro_routes import cadastro_bp
+    from .routes.logout_routes import logout_bp
+    from .routes.redefinir_senha_routes import redefinir_senha_bp
+    from .routes.recuperar_senha_routes import recuperar_senha_bp
     from .routes.home_routes import home_bp
     from .routes.perfil_routes import perfil_bp
     from .routes.refeicoes_routes import refeicoes_bp
@@ -34,7 +37,10 @@ def create_app():
     app.jinja_env.filters['formatar_numero'] = formatar_numero
     
     app.register_blueprint(login_bp)
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(cadastro_bp)
+    app.register_blueprint(logout_bp)
+    app.register_blueprint(redefinir_senha_bp)
+    app.register_blueprint(recuperar_senha_bp)
     app.register_blueprint(home_bp)
     app.register_blueprint(perfil_bp)
     app.register_blueprint(refeicoes_bp)
