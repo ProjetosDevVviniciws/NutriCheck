@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function limparMacros() {
-        document.getElementById("editarCalorias").value = "";
-        document.getElementById("editarProteinas").value = "";
-        document.getElementById("editarCarboidratos").value = "";
-        document.getElementById("editarGorduras").value = "";
+        document.getElementById("input-calorias-editar").value = "";
+        document.getElementById("input-proteinas-editar").value = "";
+        document.getElementById("input-carboidratos-editar").value = "";
+        document.getElementById("input-gorduras-editar").value = "";
     }
 
     const atualizarDataDisplay = () => {
@@ -75,16 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
         
-        document.getElementById("editarCalorias").value =
+        document.getElementById("input-calorias-editar").value =
             `${formatarNumero((porcao / 100) * editarMacrosOriginais.calorias)} kcal`;
 
-        document.getElementById("editarProteinas").value =
+        document.getElementById("input-proteinas-editar").value =
             `${formatarNumero((porcao / 100) * editarMacrosOriginais.proteinas)} g`;
 
-        document.getElementById("editarCarboidratos").value =
+        document.getElementById("input-carboidratos-editar").value =
             `${formatarNumero((porcao / 100) * editarMacrosOriginais.carboidratos)} g`;
 
-        document.getElementById("editarGorduras").value =
+        document.getElementById("input-gorduras-editar").value =
             `${formatarNumero((porcao / 100) * editarMacrosOriginais.gorduras)} g`;
     }
     
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function inicializarEventosEdicao(lista) {
         lista.querySelectorAll(".refeicao-item").forEach(item => {
             item.addEventListener("click", () => {
-                document.getElementById("refeicaoId").value = item.dataset.id;
+                document.getElementById("input-refeicao-id").value = item.dataset.id;
                 document.getElementById("input-nome-editar").value = item.dataset.nome;
                 document.getElementById("input-tipo-porcao-editar").textContent = item.dataset.tipo_porcao || "g";
                 document.getElementById("input-porcao-editar").value = formatarNumero(item.dataset.porcao);
@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("btnSalvarRefeicao").addEventListener("click", () => {
-        const id = document.getElementById("refeicaoId").value;
+        const id = document.getElementById("input-refeicao-id").value;
         const inputPorcaoEditar = document.getElementById("input-porcao-editar").value;
         const tipo_refeicao = document.querySelector(`.refeicao-card .refeicao-item[data-id="${id}"]`)?.dataset.tipo;
 
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("btnRemoverRefeicao").addEventListener("click", () => {
-        const id = document.getElementById("refeicaoId").value;
+        const id = document.getElementById("input-refeicao-id").value;
 
         if (!confirm("Tem certeza que deseja remover esta refeição?")) return;
 
