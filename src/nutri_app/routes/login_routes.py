@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from src.nutri_app.database import engine
 from src.nutri_app.utils.hash import verificar_senha
 from src.nutri_app.utils.user_login import UserLogin
-from src.nutri_app.forms.auth_forms import LoginForm
+from nutri_app.forms.login_forms import LoginForm
 from sqlalchemy import text
 from flask_login import login_user
 
