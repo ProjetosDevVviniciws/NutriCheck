@@ -30,10 +30,10 @@ def create_app():
     from .routes.alimentos_routes import alimentos_bp
     from .routes.agua_routes import agua_bp
     from .routes.progressao_routes import progressao_bp
-    from .utils.static_utils import static_versioned
+    from .utils.gerar_url_versionada import gerar_url_versionada 
     from nutri_app.utils.formatar_dados import formatar_numero   
     
-    app.jinja_env.globals['static_versioned'] = static_versioned
+    app.jinja_env.globals['gerar_url_versionada'] = gerar_url_versionada
     app.jinja_env.filters['formatar_numero'] = formatar_numero
     
     app.register_blueprint(login_bp)
