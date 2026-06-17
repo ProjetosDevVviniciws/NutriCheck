@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from src.nutri_app.database import engine
-from src.nutri_app.forms.auth_forms import RecuperarSenhaForm
+from nutri_app.forms.recuperar_senha_forms import RecuperarSenhaForm
 from nutri_app.utils.email_token import gerar_token
 from nutri_app.utils.servico_email import enviar_email_reset
 from sqlalchemy import text
