@@ -26,7 +26,7 @@ def cadastro():
         for errors in forms.errors.values():
             for err in errors:
                 flash(f"Erro ao cadastrar: {err}", category="danger")
-        return redirect(url_for("auth.cadastro"))
+        return redirect(url_for("cadastro.cadastro"))
         
     return render_template("pages/cadastro.html", form=forms)
                     
