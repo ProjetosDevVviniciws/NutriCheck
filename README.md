@@ -99,49 +99,57 @@ Estrutura baseada em arquitetura modular utilizando Flask (Blueprints), separand
 NutriCheck/
 ├── src/
 │   └── nutri_app/
-│       ├── routes/              # Rotas da aplicação (controllers)
-│       │   ├── login_routes.py
-│       │   ├── auth_routes.py
-│       │   ├── home_routes.py
-│       │   ├── perfil_routes.py
-│       │   ├── alimentos_routes.py
-│       │   ├── refeicoes_routes.py
-│       │   ├── agua_routes.py
-│       │   └── progressao_routes.py
 │       │
-│       ├── templates/           # Templates HTML (Jinja2)
-│       │   ├── pages/           # Páginas principais
-│       │   ├── includes/        # Componentes reutilizáveis 
-│       │   ├── modals/          # Modais da aplicação
-│       │   └── emails/          # Templates de e-mail
-│       │
+│       ├── forms/               # Formulários (Flask-WTF) 
+│       │   
+│       ├── routes/                          # Rotas da aplicação (Blueprints)
+│       │   ├── agua_routes.py              
+│       │   ├── alimentos_routes.py         
+│       │   ├── cadastro_routes.py           
+│       │   ├── dashboard_routes.py          
+│       │   ├── home_routes.py             
+│       │   ├── login_routes.py             
+│       │   ├── logout_routes.py             
+│       │   ├── perfil_routes.py             
+│       │   ├── progressao_routes.py         
+│       │   ├── recuperar_senha_routes.py   
+│       │   ├── redefinir_senha_routes.py   
+│       │   └── refeicoes_routes.py          
+│       │ 
 │       ├── static/              # Arquivos estáticos
 │       │   ├── css/
 │       │   │   ├── pages/       # CSS específico por página
 │       │   │   ├── base.css
-│       │   │   ├── layout.css
 │       │   │   ├── components.css
+│       │   │   ├── layout.css
 │       │   │   └── utils.css
-│       │   ├── js/              # Scripts JavaScript (fetch/AJAX)
+│       │   ├── icons/           # Favicons e ícones
 │       │   ├── images/          # Imagens do sistema
-│       │   └── icons/           # Favicons e ícones
+│       │   └── js/              # Scripts JavaScript (fetch/AJAX)  
+│       │     
+│       ├── templates/           # Templates HTML (Jinja2)
+│       │   ├── emails/          # Templates de e-mail
+│       │   ├── includes/        # Componentes reutilizáveis 
+│       │   ├── modals/          # Modais da aplicação
+│       │   └── pages/           # Páginas principais
+│       │ 
+│       ├── utils/                           # Funções auxiliares e regras de negócio
+│       │   ├── calcular_tmb.py              # Cálculos nutricionais
+│       │   ├── email_token.py               # Geração de token recuperação senha
+│       │   ├── formatar_dados.py            # Formatação de dados
+│       │   ├── gerar_url_versionada.py      # Versionamento de arquivos estáticos
+│       │   ├── hash.py                      # Hash de senhas
+│       │   ├── importar_alimentos.py        # Importação de alimentos
+│       │   ├── macros.py                    # Cálculo de macros
+│       │   ├── servico_email.py             # Envio de e-mails
+│       │   ├── usuario.py                   # Lógica de autenticação do usuário
+│       │   ├── validacao_perfil.py          # Validação de preenchimento completo do perfil do usuário
+│       │   └── validar_senhas.py            # Validação de regras de segurança das senhas
 │       │
-│       ├── forms/               # Formulários (Flask-WTF)
-│       │
-│       ├── utils/               # Regras de negócio e utilidades
-│       │   ├── email_service.py     # Envio de e-mails
-│       │   ├── macros.py            # Cálculo de calorias/macronutrientes
-│       │   ├── email_token.py       # Geração de tokens (reset senha)
-│       │   ├── static_utils.py      # Versionamento de arquivos estáticos
-│       │   ├── hash.py              # Criptografia de senha
-│       │   ├── importar_alimentos.py # Importação de alimentos via CSV com validação e tratamento de dados
-│       │   └── decorators.py        # Decoradores personalizados
-│       │
-│       ├── database.py          # Configuração do banco de dados
-│       ├── user_login.py        # Lógica de autenticação do usuário
-│       └── __init__.py          # Factory do Flask (create_app)
+│       ├── __init__.py                      # Factory Flask (create_app)
+│       └── database.py                      # Configuração do banco de dados
 │
-└── run.py                       # Ponto de entrada da aplicação
+└── run.py                                   # Inicialização da aplicação
 ```
 
 ## 🌐 Acessar a aplicação em produção
