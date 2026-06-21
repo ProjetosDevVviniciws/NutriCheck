@@ -48,7 +48,7 @@
 - **python-dotenv** → gerenciamento de variáveis de ambiente  
 - **PyMySQL** → conexão com banco MySQL  
 - **email-validator** → validação de e-mails  
-- **requests** → consumo de API externa  
+- **Pandas** → processamento do dataset OpenFoodFacts, tratamento e preparação dos dados para importação no banco
 - **Resend** → envio de e-mails transacionais **(limitado a ambiente de testes, pois não há domínio próprio configurado)**    
 
 ### Frontend / UX
@@ -60,12 +60,14 @@
 ### DevOps / Infraestrutura
 - **Git** → versionamento de código  
 - **Poetry** → gerenciamento de dependências e ambiente virtual  
+- **Gunicorn** → servidor WSGI para execução da aplicação Flask em produção
 - **Render** → deploy da aplicação  
 - **Clever Cloud** → hospedagem do banco de dados MySQL  
 
-## 🔌 Ingestão de dados externos
+## 📥 Importação do catálogo de alimentos
 
-- **OpenFoodFacts API** → ingestão de dados nutricionais em lote, permitindo a construção de um catálogo próprio persistido em banco de dados
+- **OpenFoodFacts Dataset (CSV)** → importação inicial de dados nutricionais utilizando Pandas para leitura, tratamento, validação e preparação dos alimentos
+- **importar_alimentos.py** → script responsável pelo processamento do dataset e persistência dos alimentos no catálogo interno do banco de dados
 
 ## 🧠 Como cada tecnologia foi aplicada (resumo)
 
@@ -77,12 +79,13 @@
 - **Fetch/AJAX** → atualização dinâmica da interface sem reload  
 - **Chart.js** → visualização gráfica da evolução de peso  
 - **Flatpickr** → melhoria na entrada de datas  
-- **Bootstrap** → padronização visual e responsividade  
+- **Bootstrap** → padronização visual e responsividade 
+- **Pandas** → processamento e importação dos dados nutricionais externos 
 
 ## 📊 Diferenciais do projeto
 
 - Interface totalmente responsiva  
-- Ingestão de dados da API OpenFoodFacts para construção de catálogo próprio
+- Importação e tratamento de dados nutricionais do OpenFoodFacts para construção de catálogo próprio
 - Cálculo automático de calorias e macronutrientes  
 - Envio de e-mail para recuperação de senha **(limitado a ambiente de testes, pois não há domínio próprio configurado)**  
 - Atualização de dados sem reload (AJAX)  
@@ -185,6 +188,24 @@ poetry shell
 python run.py
 ```
 
+## 📥 Importação do catálogo de alimentos
+
+O catálogo inicial de alimentos é criado através do dataset disponibilizado pelo OpenFoodFacts.
+
+A importação é realizada manualmente através do script `importar_alimentos.py`, responsável por:
+
+- Leitura do arquivo CSV utilizando Pandas
+- Filtragem de alimentos disponíveis no Brasil
+- Validação dos dados nutricionais
+- Extração da porção e unidade do alimento
+- Inserção dos registros na tabela `catalogo_alimentos`
+
+Para executar a importação:
+
+```bash
+python -m src.nutri_app.utils.importar_alimentos
+```
+
 ## 🗄️ Criar tabelas no banco de dados
 
 Antes de iniciar a aplicação, é necessário criar as tabelas no banco MySQL.
@@ -278,6 +299,6 @@ O **NutriCheck** foi desenvolvido com foco em aprendizado prático e aplicação
 Este projeto demonstra habilidades em:
 
 - Desenvolvimento full stack  
-- Ingestão e persistência de dados a partir de API externa  
+- Importação, tratamento e persistência de dados externos
 - Boas práticas de organização de código  
 - Deploy e configuração de ambiente de produção
