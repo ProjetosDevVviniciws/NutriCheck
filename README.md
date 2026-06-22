@@ -64,11 +64,6 @@
 - **Render** → deploy da aplicação  
 - **Clever Cloud** → hospedagem do banco de dados MySQL  
 
-## 📥 Importação do catálogo de alimentos
-
-- **OpenFoodFacts Dataset (CSV)** → importação inicial de dados nutricionais utilizando Pandas para leitura, tratamento, validação e preparação dos alimentos
-- **importar_alimentos.py** → script responsável pelo processamento do dataset e persistência dos alimentos no catálogo interno do banco de dados
-
 ## 🧠 Como cada tecnologia foi aplicada (resumo)
 
 - **Flask** → estrutura da aplicação e gerenciamento de rotas  
