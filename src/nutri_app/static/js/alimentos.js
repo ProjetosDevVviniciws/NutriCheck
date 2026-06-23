@@ -77,6 +77,17 @@ document.addEventListener("DOMContentLoaded", () => {
     valueField: "id",
     labelField: "nome",
     searchField: "nome",
+
+    render: {
+      option: function (item, escape) {
+        return `<div>${escape(item.nome || "")}</div>`;
+      },
+
+      no_results: function (data, escape) {
+        return `<div class="no-results">Alimento não encontrado</div>`;
+      }
+    },
+
     load: function (query, callback) {
       if (!query.length) return callback();
       fetch(`/buscar-alimentos?q=${encodeURIComponent(query)}`)
@@ -94,11 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(() => callback());
     },
-    render: {
-      option: function (item, escape) {
-        return `<div>${escape(item.nome || "")}</div>`;
-      }
-    },
+    
     onChange: function (value) {
       if (!value) return;
       const item = this.options[value];
